@@ -51,7 +51,7 @@ public class View {
 		System.out.println("Enter 'help' for instructions");
 	}
 
-	public static void instructions() {
+	private static void instructions() {
 		/* This method provides instructions for how to start a command sequence,
 		 * 	further instructions are provided once a command is started. 
 		 * No arguments or returns.
@@ -63,7 +63,7 @@ public class View {
 		System.out.println("Enter 'end' to terminate the program.");	
 	}
 
-	public static void search(Scanner input) {
+	private static void search(Scanner input) {
 		/* This method is used to search the music store or user library for songs, albums, or play lists. 
 		 * No arguments or returns.
 		 */
@@ -83,7 +83,7 @@ public class View {
 		}
 	}
 
-	public static void storeSearch(Scanner input){
+	private static void storeSearch(Scanner input){
 		/* This method is used to search the music store for songs, albums, or play lists.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.
@@ -104,7 +104,7 @@ public class View {
 			}
 	}
 
-	public static void librarySearch(Scanner input) {
+	private static void librarySearch(Scanner input) {
 		/* This method is used to search the user library for songs, albums, or play lists.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.
@@ -128,7 +128,7 @@ public class View {
 			}
 	}
 
-	public static void songFromStore(Scanner input) {
+	private static void songFromStore(Scanner input) {
 		/* This method is used to search the music store for a song.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
@@ -149,7 +149,7 @@ public class View {
 		}
 	}
 
-	public static void albumFromStore(Scanner input) {
+	private static void albumFromStore(Scanner input) {
 		/* This method is used to search the music store for an album.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
@@ -170,7 +170,7 @@ public class View {
 		}
 	}
 
-	public static void songFromLibrary(Scanner input) {
+	private static void songFromLibrary(Scanner input) {
 		/* This method is used to search the user library for a song.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
@@ -191,7 +191,7 @@ public class View {
 		}	
 	}
 
-	public static void albumFromLibrary(Scanner input) {
+	private static void albumFromLibrary(Scanner input) {
 		/* This method is used to search the user library for an album.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
@@ -213,7 +213,7 @@ public class View {
 		
 	}
 
-	public static void get(Scanner input) {
+	private static void get(Scanner input) {
 		/* This method is used to get all of the following from the music store: 
 		 * 		songs,artists,albums,play lists, or favorites.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
@@ -246,7 +246,7 @@ public class View {
 	/*Method never used, Delete before submission if still never used.
 	 * 
 	 *
-	public static void modifySong(Scanner input, String songName) {
+	private static void modifySong(Scanner input, String songName) {
 		/* This method is used to either favorite or
 		 * 
 		 *
@@ -267,7 +267,7 @@ public class View {
 	}
 	*/
 
-	public static void modifyPlaylist(Scanner input) {
+	private static void modifyPlaylist(Scanner input) {
 		/* This method is used to create or modify an existing play list.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
@@ -285,7 +285,7 @@ public class View {
 		}
 	}
 
-	public static void modifySpecificPlaylist(Scanner input, String playlistName) {
+	private static void modifySpecificPlaylist(Scanner input, String playlistName) {
 		/* This method is used to add or remove a song from the previously entered play list.
 		 * Arguments:
 		 * 		input: A scanner object that is monitoring the command line where the user enters their selections.
@@ -313,7 +313,7 @@ public class View {
 	 * ----------------------------------------------------------------------
 	 *  Below this line is to call functions to execute user commands.
 	 */
-	public static void songFromStoreByTitle(Scanner input) {
+	private static void songFromStoreByTitle(Scanner input) {
 		/* This method searches for a song from the music store by a given song name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.  
@@ -323,7 +323,7 @@ public class View {
 		System.out.println(store.songSearchByTitleStore(search));
 	}
 
-	public static void songFromStoreByArtist(Scanner input) {
+	private static void songFromStoreByArtist(Scanner input) {
 		/* This method searches for a song from the music store by a given artist.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null. 
@@ -333,7 +333,7 @@ public class View {
 		System.out.println(store.songSearchByArtistStore(search));
 	}
 
-	public static void albumFromStoreByTitle(Scanner input) {
+	private static void albumFromStoreByTitle(Scanner input) {
 		/* This method searches for an album from the music store by a given album name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -343,7 +343,7 @@ public class View {
 		System.out.println(store.albumSearchByTitleStore(search));
 	}
 
-	public static void albumFromStoreByArtist(Scanner input) {
+	private static void albumFromStoreByArtist(Scanner input) {
 		/* This method searches for an album from the music store by a given artist name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -353,7 +353,7 @@ public class View {
 		System.out.println(store.albumSearchByArtistStore(search));
 	}
 
-	public static void songFromLibraryByTitle(Scanner input) {
+	private static void songFromLibraryByTitle(Scanner input) {
 		/* This method searches for a song from the user library by a given song name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -363,7 +363,7 @@ public class View {
 		System.out.println(store.songSearchByTitleUser(search));
 	}
 
-	public static void songFromLibraryByArtist(Scanner input) {
+	private static void songFromLibraryByArtist(Scanner input) {
 		/* This method searches for a song from the user library by a given artist name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -373,7 +373,7 @@ public class View {
 		System.out.println(store.songSearchByArtistUser(search));
 	}
 
-	public static void albumFromLibraryByTitle(Scanner input) {
+	private static void albumFromLibraryByTitle(Scanner input) {
 		/* This method searches for an album from the user library by a given song name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -383,7 +383,7 @@ public class View {
 		System.out.println(store.albumSearchByTitleUser(search));
 	}
 
-	public static void albumFromLibraryByArtist(Scanner input) {
+	private static void albumFromLibraryByArtist(Scanner input) {
 		/* This method searches for an album from the user library by a given artist name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -393,7 +393,7 @@ public class View {
 		System.out.println(store.albumSearchByArtistUser(search));
 	}
 
-	public static void playlistSearch(Scanner input) {
+	private static void playlistSearch(Scanner input) {
 		/* This method searches for a play list by a given play list name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
@@ -403,32 +403,32 @@ public class View {
 		System.out.println(store.searchPlaylist(search));
 	}
 
-	public static void getSongs() {
+	private static void getSongs() {
 		// This method prints all songs in the music store.
 		System.out.println(store.getSongTitles());
 	}
 
-	public static void getArtists() {
+	private static void getArtists() {
 		// This method prints all artist's names who have songs in the music store.
 		System.out.println(store.getArtists());
 	}
 
-	public static void getAlbums() {
+	private static void getAlbums() {
 		// This method prints the names of all albums in the music store.
 		System.out.println(store.getAlbums());
 	}
 
-	public static void getPlaylists() {
+	private static void getPlaylists() {
 		// This method prints the names of all play lists.
 		System.out.println(store.getPlaylists());
 	}
 
-	public static void getFavorites() {
+	private static void getFavorites() {
 		// This method prints all songs that the user has favorited or rated '5'.
 		System.out.println(store.getFavoriteSongs());
 	}
 
-	public static void rateSong(Scanner input, String songName) {
+	private static void rateSong(Scanner input, String songName) {
 		/* This method is used in rating a provided song.
 		 * Arguments:
 		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
@@ -443,7 +443,7 @@ public class View {
 		System.out.println(store.rateSong(songName, rating));
 	}
 
-	public static void favoriteSong(String songName) {
+	private static void favoriteSong(String songName) {
 		/* This method is used to favorite a provided song.
 		 * Argument: The string name of the song.
 		 * 
@@ -452,7 +452,7 @@ public class View {
 		System.out.println(store.favoriteSong(songName));
 	}
 
-	public static void createPlaylist(Scanner input) {
+	private static void createPlaylist(Scanner input) {
 		/* This method is used to create a play list.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null. 
@@ -462,7 +462,7 @@ public class View {
 		System.out.println(store.makePlaylist(name));
 	}
 
-	public static void addSongToPlaylist(Scanner input, String playlistName) {
+	private static void addSongToPlaylist(Scanner input, String playlistName) {
 		/* This method is used to add a song to a provided play list.
 		 * Arguments:
 		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
@@ -475,7 +475,7 @@ public class View {
 		System.out.println(store.addToPlaylist(playlistName, songName));
 	}
 
-	public static void removeSongFromPlaylist(Scanner input, String playlistName) {
+	private static void removeSongFromPlaylist(Scanner input, String playlistName) {
 		/* This method is used to remove a song to a provided play list.
 		 * Arguments:
 		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
