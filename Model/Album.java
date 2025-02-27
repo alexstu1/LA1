@@ -10,7 +10,7 @@ public class Album {
     private int year;
     private ArrayList<Song> songList;
 
-    public Album(String filename) {
+    public Album(File filename) {
         try (BufferedReader fileReader = new BufferedReader(new FileReader(filename))) {
             String[] infoLine = fileReader.readLine().split(",");
             this.title = infoLine[0];
@@ -46,6 +46,7 @@ public class Album {
         return year;
     }
 
+    /* Commenting out, will add a similar method back in later
     public String getTracks() {
         if (songList.size() == 0) return "";
         
@@ -56,6 +57,11 @@ public class Album {
 
         output.append(songList.get(songList.size() - 1).getTitle());
         return output.toString();
+    }
+    */
+
+    public List<Song> getTracks() {
+        return Collections.unmodifiableList(songList);
     }
 
     @Override

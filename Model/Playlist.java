@@ -27,6 +27,11 @@ public class Playlist {
         return output.toString();
     }
 
+    public boolean hasSong(Song song) {
+        if (songs.contains(song)) return true;
+        return false;
+    }
+
     public void addSong(Song song) {
         songs.add(song);
     }

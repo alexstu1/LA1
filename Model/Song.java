@@ -1,5 +1,7 @@
 package Model;
 
+import java.util.*;
+
 public class Song {
     private String title;
     private String artist;
@@ -60,6 +62,13 @@ public class Song {
 
     @Override
     public String toString() {
-        return String.format("%s - %s | Appears on: %s", artist, title, albumName);
+        StringBuilder output = new StringBuilder();
+        output.append(String.format("%s - %s | Appears on: %s", artist, title, albumName));
+        if (isRated) {
+            output.append(String.format(" | %d", rating));
+        }
+
+        output.append("\n");
+        return output.toString();
     }
 }
