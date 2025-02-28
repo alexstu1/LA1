@@ -32,6 +32,12 @@ public class View {
 				case "playlist":
 					modifyPlaylist(input);
 					break;
+				case "library":
+					modifyLibrary(input);
+					break;
+				case "rate":
+					rateSongs(input);
+					break;
 				case "end":
 					input.close();
 					continuing=false;
@@ -57,8 +63,10 @@ public class View {
 		 * No arguments or returns.
 		 */
 		System.out.println("Enter 'search' and follow the instructions given to find a song, album, or playlist.");
-		System.out.println("Enter'get' and follow the instructions to get all of a certain category.");
+		System.out.println("Enter 'get' and follow the instructions to get all of a certain category.");
 		System.out.println("Enter 'playlist' and follow the instructions to create or modify a playlist");
+		System.out.println("Enter 'library' to add a song or playlist to the saved user library.");
+		System.out.println("Enter 'rate' to rate or faviorite a song.");
 		System.out.println("Enter 'exit' at any point to return the main menu.");
 		System.out.println("Enter 'end' to terminate the program.");	
 	}
@@ -243,29 +251,27 @@ public class View {
 				get(input);
 		}
 	}
-	/*Method never used, Delete before submission if still never used.
-	 * 
-	 *
-	private static void modifySong(Scanner input, String songName) {
-		/* This method is used to either favorite or
-		 * 
-		 *
-		System.out.println("Enter 'rate' to rate a song, or 'favorite' to favorite the song.\n Alternatively enter 'exit' to return to the main menu.");
+	private static void modifyLibrary(Scanner input) {
+		/* This method is used to add a song or album to the user library.
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
+		System.out.println("Enter 'song' or 'album' to add a song or album to your library.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "rate":
-				rateSong(input, songName);
+			case "song":
+				addSongToLibrary(input);
 				break;
-			case "favorite":
-				favoriteSong(songName);
+			case "album":
+				addAlbumToLibrary(input);
 				break;
 			case "exit":
 				return;
 			default:
 				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
-				modifySong(input, songName);
+				modifyLibrary(input);
 		}
 	}
-	*/
+	
 
 	private static void modifyPlaylist(Scanner input) {
 		/* This method is used to create or modify an existing play list.
@@ -308,7 +314,34 @@ public class View {
 				modifySpecificPlaylist(input,playlistName);
 		}
 	}
-	
+	public static void rateSongs(Scanner input) {
+		/* This method is used to determine if the user wants to rate or favorite a song
+		 * 
+		 */
+		System.out.println("Enter 'rate' or 'favorite' to rate or favorite a song.\n Rating a song 5 stars automatically favorites it!");
+		switch (input.nextLine().trim().toLowerCase()) {
+			case "rate":
+				rateSong(input);
+				break;
+			case "favorite":
+				favoriteSong(input);
+				break;
+			case "exit":
+				return;
+			default:
+				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				rateSongs(input);
+		}
+	}
+	public static void rateSong(Scanner input) {
+		/* This method is used to get the song's name the user wants to rate.
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null.  
+		 */
+		System.out.println("Enter the song's name that you want to rate.");
+		String songName = input.nextLine().trim().toLowerCase();
+		rateSongNum(input,songName);
+	}
 	/*	Above this line is for user commands.
 	 * ----------------------------------------------------------------------
 	 *  Below this line is to call functions to execute user commands.
@@ -427,8 +460,8 @@ public class View {
 		// This method prints all songs that the user has favorited or rated '5'.
 		System.out.println(store.getFavoriteSongs());
 	}
-
-	private static void rateSong(Scanner input, String songName) {
+	
+	private static void rateSongNum(Scanner input, String songName) {
 		/* This method is used in rating a provided song.
 		 * Arguments:
 		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
@@ -443,12 +476,14 @@ public class View {
 		System.out.println(store.rateSong(songName, rating));
 	}
 
-	private static void favoriteSong(String songName) {
-		/* This method is used to favorite a provided song.
-		 * Argument: The string name of the song.
-		 * 
+	private static void favoriteSong(Scanner input) {
+		/* This method is used to favorite a song.
+		* Argument: A scanner object that is monitoring the command line where the user enters their selection.
+		 * Returns null. 
 		 * Returns null.
 		 */
+		System.out.println("Enter the song's name you want to favorite.");
+		String songName = input.nextLine().trim().toLowerCase();
 		System.out.println(store.favoriteSong(songName));
 	}
 
@@ -487,5 +522,23 @@ public class View {
 		String songName = input.nextLine().toLowerCase();
 		System.out.println(store.removeFromPlaylist(playlistName, songName));
 	}
+	private static void addSongToLibrary(Scanner input) {
+		/* This method is used to add a song to the user library
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
+		System.out.println("Enter song to add.");
+		String songName = input.nextLine().trim().toLowerCase();
+		System.out.println(store.addSongToUser(songName));
+	}
 
+	public static void addAlbumToLibrary(Scanner input) {
+		/* This method is used to add an album to the user library
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
+		System.out.println("Enter album to add.");
+		String albumName = input.nextLine().trim().toLowerCase();
+		System.out.println(store.addAlbumToUser(albumName));
+	}
 }
