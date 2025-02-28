@@ -15,35 +15,33 @@ public class View {
 		
 		Scanner input = new Scanner(System.in);
 		boolean continuing = true;
+		greetings();
 		while(continuing) {
-			greetings();
+			instructions();
 			switch (input.nextLine().trim().toLowerCase()) {
-				// Entering either help or nothing will bring up instructions.
-				case "help":
-				case "":
-					instructions();
-					break;
-				case "search":
+				case "s":
 					search(input);		
 					break;
-				case "get":
+				case "g":
 					get(input);
 					break;
-				case "playlist":
+				case "p":
 					modifyPlaylist(input);
 					break;
-				case "library":
+				case "l":
 					modifyLibrary(input);
 					break;
-				case "rate":
+				case "r":
 					rateSongs(input);
 					break;
-				case "end":
+				case "m":
+					break;
+				case "e":
 					input.close();
 					continuing=false;
 					break;
 				default:
-					System.out.println("Command not understood, enter 'help' for instructions.");
+					System.out.println("Command not recognized, please enter a valid command from the list within the []. Commands are case insensitive.");
 			}
 		}
 	}
@@ -52,9 +50,8 @@ public class View {
 		/* This method greets the user at the main menu.
 		 * No arguments or returns.
 		 */
-		System.out.println("Welcome your last Music App.");
-		System.out.println("Your one stop shop for finding new and old favorites.");
-		System.out.println("Enter 'help' for instructions");
+		System.out.println("Welcome to Eric and Alex's Music App!");
+		System.out.println("This is your one stop shop for finding new and old favorites!");
 	}
 
 	private static void instructions() {
@@ -62,31 +59,33 @@ public class View {
 		 * 	further instructions are provided once a command is started. 
 		 * No arguments or returns.
 		 */
-		System.out.println("Enter 'search' and follow the instructions given to find a song, album, or playlist.");
-		System.out.println("Enter 'get' and follow the instructions to get all of a certain category.");
-		System.out.println("Enter 'playlist' and follow the instructions to create or modify a playlist");
-		System.out.println("Enter 'library' to add a song or playlist to the saved user library.");
-		System.out.println("Enter 'rate' to rate or faviorite a song.");
-		System.out.println("Enter 'exit' at any point to return the main menu.");
-		System.out.println("Enter 'end' to terminate the program.");	
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("SEARCH:         Enter [S] and follow the instructions to search for a song, album, or playlist.");
+		System.out.println("GET ALL:        Enter [G] and follow the instructions to retrieve all of a certain category (songs, albums, etc.) from your library.");
+		System.out.println("PLAYLIST:       Enter [P] and follow the instructions to create or modify a playlist.");
+		System.out.println("LIBRARY:        Enter [L] to add a song or entire album to your library.");
+		System.out.println("RATE/FAVORITE:  Enter [R] to rate or favorite a song.");
+		System.out.println("RETURN TO MENU: Enter [M] at any point to return the main menu.");
+		System.out.println("EXIT APP:       Enter [E] to terminate the program.");
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 	}
 
 	private static void search(Scanner input) {
 		/* This method is used to search the music store or user library for songs, albums, or play lists. 
 		 * No arguments or returns.
 		 */
-		System.out.println("Enter 'store' to search the store or 'library' to search your library.");
+		System.out.println("Enter [S] to search our store, [L] to search your library, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "store":
+			case "s":
 				storeSearch(input);
 				break;
-			case "library":
+			case "l":
 				librarySearch(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				search(input);
 		}
 	}
@@ -96,20 +95,20 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.
 		 */
-		System.out.println("Enter 'song' to search for a song, or 'album' to search for an album");
+		System.out.println("Enter [S] to search for a song, [A] to search for an album, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "song":
+			case "s":
 				songFromStore(input);
 				break;
-			case "album":
+			case "a":
 				albumFromStore(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				storeSearch(input);
-			}
+		}
 	}
 
 	private static void librarySearch(Scanner input) {
@@ -117,23 +116,23 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.
 		 */
-		System.out.println("Enter 'song' to search for a song, 'album' to search for an album, or 'playlist' to search for a playlist.");
+		System.out.println("Enter [S] to search for a song, [A] to search for an album, [P] to search for a playlist, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "song":
+			case "s":
 				songFromLibrary(input);
 				break;
-			case "album":
+			case "a":
 				albumFromLibrary(input);
 				break;
-			case "playlist":
+			case "p":
 				playlistSearch(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				librarySearch(input);
-			}
+		}
 	}
 
 	private static void songFromStore(Scanner input) {
@@ -141,18 +140,18 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'title' to search by title, or 'artist' to serach by artist.");
+		System.out.println("Enter [T] to search by title, [A] to search by artist, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "title":
+			case "t":
 				songFromStoreByTitle(input);
 				break;
-			case "artist":
+			case "a":
 				songFromStoreByArtist(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				songFromStore(input);
 		}
 	}
@@ -162,18 +161,18 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'title' to search by title, or 'artist' to serach by artist.");
+		System.out.println("Enter [T] to search by title, [A] to search by artist, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "title":
+			case "t":
 				albumFromStoreByTitle(input);
 				break;
-			case "artist":
+			case "a":
 				albumFromStoreByArtist(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				albumFromStore(input);
 		}
 	}
@@ -183,18 +182,18 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'title' to search by title, or 'artist' to serach by artist.");
+		System.out.println("Enter [T] to search by title, [A] to search by artist, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "title":
+			case "t":
 				songFromLibraryByTitle(input);
 				break;
-			case "artist":
+			case "a":
 				songFromLibraryByArtist(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				songFromLibrary(input);
 		}	
 	}
@@ -204,18 +203,18 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'title' to search by title, or 'artist' to serach by artist.");
+		System.out.println("Enter [T] to search by title, [A] to search by artist, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "title":
+			case "t":
 				albumFromLibraryByTitle(input);
 				break;
-			case "artist":
+			case "a":
 				albumFromLibraryByArtist(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				albumFromLibrary(input);
 		}
 		
@@ -227,64 +226,64 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'songs','artists',albums','playlists', or 'favorites' to get all of them from the library.");
+		System.out.println("Enter [S] to retrieve all songs, [AR] for artists, [AL] for albums, [P] for playlists, [F] for favorites, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "songs":
+			case "s":
 				getSongs();
 				break;
-			case "artists":
+			case "ar":
 				getArtists();
 				break;
-			case "albums":
+			case "al":
 				getAlbums();
 				break;
-			case "playlists":
+			case "p":
 				getPlaylists();
 				break;
-			case "favorites":
+			case "f":
 				getFavorites();
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				get(input);
 		}
 	}
+
 	private static void modifyLibrary(Scanner input) {
 		/* This method is used to add a song or album to the user library.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'song' or 'album' to add a song or album to your library.");
+		System.out.println("Enter [S] to add a song to your library, [A] to add an album, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "song":
+			case "s":
 				addSongToLibrary(input);
 				break;
-			case "album":
+			case "a":
 				addAlbumToLibrary(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				modifyLibrary(input);
 		}
 	}
 	
-
 	private static void modifyPlaylist(Scanner input) {
 		/* This method is used to create or modify an existing play list.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter 'create' to create a playlist, 'exit' to cancel, or the playlist's name you want to modify.");
+		System.out.println("Enter [C] to create a playlist, the name of the playlist you want to modify, or [M] to return to the main menu.");
 		String entry = input.nextLine().trim().toLowerCase();
 		switch (entry) {
-			case "create":
+			case "c":
 				createPlaylist(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
 				modifySpecificPlaylist(input,entry);
@@ -299,40 +298,43 @@ public class View {
 		 * 
 		 * Returns null.
 		 */
-		System.out.println("Enter 'add' or 'remove' to add or remove a song.");
+		System.out.println("Enter [A] to add a song to playlist, [R] to remove a song, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "add":
+			case "a":
 				addSongToPlaylist(input,playlistName);
 				break;
-			case "remove":
+			case "r":
 				removeSongFromPlaylist(input,playlistName);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				modifySpecificPlaylist(input,playlistName);
 		}
 	}
+
 	public static void rateSongs(Scanner input) {
 		/* This method is used to determine if the user wants to rate or favorite a song
 		 * 
 		 */
-		System.out.println("Enter 'rate' or 'favorite' to rate or favorite a song.\n Rating a song 5 stars automatically favorites it!");
+		System.out.println("Enter [R] to rate a song, [F] to favorite a song, or [M] to return to the main menu.");
+		System.out.println("Note: Giving a song a 5 star rating automatically favorites it!");
 		switch (input.nextLine().trim().toLowerCase()) {
-			case "rate":
+			case "r":
 				rateSong(input);
 				break;
-			case "favorite":
+			case "f":
 				favoriteSong(input);
 				break;
-			case "exit":
+			case "m":
 				return;
 			default:
-				System.out.println("Command not understood, enter 'exit' to return to main menu or try again.");
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				rateSongs(input);
 		}
 	}
+
 	public static void rateSong(Scanner input) {
 		/* This method is used to get the song's name the user wants to rate.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
@@ -340,18 +342,20 @@ public class View {
 		 */
 		System.out.println("Enter the song's name that you want to rate.");
 		String songName = input.nextLine().trim().toLowerCase();
-		rateSongNum(input,songName);
+		rateSongNum(input, songName);
 	}
+
 	/*	Above this line is for user commands.
 	 * ----------------------------------------------------------------------
 	 *  Below this line is to call functions to execute user commands.
 	 */
+
 	private static void songFromStoreByTitle(Scanner input) {
 		/* This method searches for a song from the music store by a given song name.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.  
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the song's title:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.songSearchByTitleStore(search));
 	}
@@ -361,7 +365,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null. 
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the song's artist:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.songSearchByArtistStore(search));
 	}
@@ -371,7 +375,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the album's title:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.albumSearchByTitleStore(search));
 	}
@@ -381,7 +385,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter album's artist:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.albumSearchByArtistStore(search));
 	}
@@ -391,7 +395,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the song's title:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.songSearchByTitleUser(search));
 	}
@@ -401,7 +405,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the song's artist:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.songSearchByArtistUser(search));
 	}
@@ -411,7 +415,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the album's title:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.albumSearchByTitleUser(search));
 	}
@@ -421,7 +425,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter your search:");
+		System.out.println("Enter the album's artist:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.albumSearchByArtistUser(search));
 	}
@@ -431,7 +435,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter playlist name:");
+		System.out.println("Enter the playlist's name:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(store.searchPlaylist(search));
 	}
@@ -467,12 +471,12 @@ public class View {
 		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
 		 * 		songName: The String name of the song.
 		 * If the user enters a number above 5, the rating will be set to 5.
-		 * If the user enters a number below 0, the rating will be set to 0.
+		 * If the user enters a number below 1, the rating will be set to 1.
 		 * If the rating is 5, the song will also be favorited.
 		 * Returns null.
 		 */
-		System.out.println("Enter your rating for the song from 1 to 5");
-		int rating = Integer.parseInt(input.next());
+		System.out.println("Rate the song 1-5:");
+		int rating = Integer.parseInt(input.nextLine());
 		System.out.println(store.rateSong(songName, rating));
 	}
 
@@ -492,7 +496,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null. 
 		 */
-		System.out.println("Enter playlist name  you want to create");
+		System.out.println("What do you want to name your playlist?");
 		String name = input.nextLine();
 		System.out.println(store.makePlaylist(name));
 	}
@@ -505,7 +509,7 @@ public class View {
 		 * 
 		 * Returns null. 
 		 */
-		System.out.println("Enter song to add.");
+		System.out.println("Enter the song's name you'd like to add to your playlist.");
 		String songName = input.nextLine().trim().toLowerCase();
 		System.out.println(store.addToPlaylist(playlistName, songName));
 	}
@@ -518,7 +522,7 @@ public class View {
 		 * 
 		 * Returns null. 
 		 */
-		System.out.println("Enter song to remove.");
+		System.out.println("Enter the song's name you'd like to remove.");
 		String songName = input.nextLine().toLowerCase();
 		System.out.println(store.removeFromPlaylist(playlistName, songName));
 	}
@@ -527,7 +531,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter song to add.");
+		System.out.println("Enter the song's name you'd like to add to your library.");
 		String songName = input.nextLine().trim().toLowerCase();
 		System.out.println(store.addSongToUser(songName));
 	}
@@ -537,7 +541,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter album to add.");
+		System.out.println("Enter the album's name you'd like to add to your library.");
 		String albumName = input.nextLine().trim().toLowerCase();
 		System.out.println(store.addAlbumToUser(albumName));
 	}
