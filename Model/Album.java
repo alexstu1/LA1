@@ -11,6 +11,14 @@ public class Album {
     private ArrayList<Song> songList;
 
     public Album(File filename) {
+    	/* Argument: A File object of the file name of the file that stores the data for the album.
+    	 * 
+    	 * This class represents an album.
+    	 * It can only represent albums given in a text file in the following format:
+    	 * 
+    	 * first line: comma separated values of "title,artist,genre,year"
+    	 * A song name on each remaining line of the file.
+    	 */
         try (BufferedReader fileReader = new BufferedReader(new FileReader(filename))) {
             String[] infoLine = fileReader.readLine().split(",");
             this.title = infoLine[0];
@@ -46,26 +54,20 @@ public class Album {
         return year;
     }
 
-    /* Commenting out, will add a similar method back in later
-    public String getTracks() {
-        if (songList.size() == 0) return "";
-        
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < songList.size() - 1; i++) {
-            output.append(songList.get(i).getTitle()).append(",");
-        }
-
-        output.append(songList.get(songList.size() - 1).getTitle());
-        return output.toString();
-    }
-    */
-
     public List<Song> getTracks() {
+    	//Returns a read only version of a list of songs on the album. 
         return Collections.unmodifiableList(songList);
     }
 
     @Override
     public String toString() {
+    	/*Returns a String in the following format with items in single quotes being the actual value:
+    	 * Album: 'album's name' ('year')
+    	 * Artist: 'artist's name'
+    	 * Genre: 'genre'
+    	 * Track List:
+    	 * 'Each song in order'
+    	 */
         StringBuilder output = new StringBuilder();
         output.append("Album: ").append(title).append(" (").append(year).append(")\n");
         output.append("Artist: ").append(artist).append("\n");

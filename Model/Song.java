@@ -1,7 +1,5 @@
 package Model;
 
-import java.util.*;
-
 public class Song {
     private String title;
     private String artist;
@@ -11,6 +9,12 @@ public class Song {
     private boolean isFavorite;
 
     public Song(String title, String artist, String albumName) {
+    	/* This object represents a song on an album.
+    	 * Constructor Arguments;
+    	 * 		title: String name of the song.
+    	 * 		artist: String name of the artist.
+    	 * 		albumName: String name of the album the song is from.
+    	 */
         this.title = title;
         this.artist = artist;
         this.albumName = albumName;
@@ -39,12 +43,20 @@ public class Song {
     }
 
     public void setRating(int userRating) {
+    	/*	This method allows the user to set the rating of a song.
+    	 * 	Argument: The integer rating of the song.
+    	 * 		If the rating is above 5 it will be set to 5.
+    	 * 		If the rating is below 1 it will be set to 1.
+    	 * 
+    	 * 		If the rating is 5 it will also favorite the song.
+    	 */
         isRated = true;
-        if (userRating < 0) rating = 0;
+        if (userRating < 1) rating = 1;
         else if (userRating >= 5) {
             rating = 5;
             this.favorite();
         }
+        
         else rating = userRating;
     }
 
@@ -62,10 +74,12 @@ public class Song {
 
     @Override
     public String toString() {
+    	/* This method creates a string representation of the song, meant to be printed out to the user.
+    	 */
         StringBuilder output = new StringBuilder();
         output.append(String.format("%s - %s | Appears on: %s", artist, title, albumName));
         if (isRated) {
-            output.append(String.format(" | %d", rating));
+            output.append(String.format(" | You Rated: %d/5", rating));
         }
 
         output.append("\n");

@@ -7,6 +7,9 @@ public class Playlist {
     private ArrayList<Song> songs;
 
     public Playlist(String name) {
+    	/* This object represents a play list created by the user in the view.
+    	 * 
+    	 */
         this.name = name;
         this.songs = new ArrayList<Song>();
     }
@@ -15,20 +18,21 @@ public class Playlist {
         return name;
     }
 
-    public String getSongs() {
-        if (songs.size() == 0) return "";
-
-        StringBuilder output = new StringBuilder();
-        for (int i = 0; i < songs.size() - 1; i++) {
-            output.append(songs.get(i).getTitle()).append(",");
+    public int countSong(String title) {
+        /* Returns the number of songs on the playlist with a title matching
+         * the provided title string
+         */
+        ArrayList<Song> matches = new ArrayList<Song>();
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(title)) matches.add(song);
         }
 
-        output.append(songs.get(songs.size() - 1).getTitle());
-        return output.toString();
+        return matches.size();
     }
 
     public boolean hasSong(Song song) {
         if (songs.contains(song)) return true;
+
         return false;
     }
 
@@ -40,12 +44,49 @@ public class Playlist {
         songs.remove(song);
     }
 
+    public void removeSong(String title) {
+        Song removing = null;
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(title)) {
+                removing = song;
+                break;
+            }
+        }
+
+        songs.remove(removing);
+    }
+
+    public boolean removeSong(String title, String artist) {
+        /* This method will check for a song by its artist and title
+         * in the case that the playlist has multiple songs of the same
+         * name, and remove it
+         */
+        Boolean found = false;
+        Song removing = null;
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(title) && song.getArtist().equalsIgnoreCase(artist)) {
+                found = true;
+                removing = song;
+                break;
+            }
+        }
+
+        if (!found) return false;
+
+        songs.remove(removing);
+        return true;
+    }
+
     @Override
     public String toString() {
+    	/* Returns, if play list empty: A printable string reporting the empty status.
+    	 * Returns: A String of all songs with their associated tracks,
+    	 *  with each song on its own line.
+    	 */
         StringBuilder output = new StringBuilder();
         output.append("Playlist: ").append(name).append("\n");
         if (songs.size() == 0) {
-            output.append("You dont currently have any tracks on this playlist. Add some to get started!\n");
+            output.append("You dont currently have any tracks on this playlist. Add some to get started!");
             return output.toString();
         }
 
