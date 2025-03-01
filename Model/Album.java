@@ -37,23 +37,14 @@ public class Album {
             e.printStackTrace();
         }
     }
-    public Album (BufferedReader br) {
-    	try {
-	    	String[] infoLine = br.readLine().split(",");
-	        this.title = infoLine[0];
-	        this.artist = infoLine[1];
-	        this.genre = infoLine[2];
-	        this.year = Integer.parseInt(infoLine[3]);
-	        this.songList = new ArrayList<Song>();
-	
-	        String line;
-	        while ((line = br.readLine()) != null) {
-	            Song track = new Song(line, artist, title);
-	            songList.add(track);  
-        	}
-    	} catch (IOException e) {
-            e.printStackTrace();
-        }
+
+    public Album(Album album) {
+        // Copy constructor
+        this.title = album.getTitle();
+        this.artist = album.getArtist();
+        this.genre = album.getGenre();
+        this.year = album.getYear();
+        this.songList = album.getTracks();
     }
 
     public String getTitle() {
@@ -72,9 +63,26 @@ public class Album {
         return year;
     }
 
-    public List<Song> getTracks() {
-    	//Returns a read only version of a list of songs on the album. 
-        return Collections.unmodifiableList(songList);
+    public ArrayList<Song> getTracks() {
+    	//Returns a deep-copy of the songsList
+        ArrayList<Song> copy = new ArrayList<Song>();
+        for (Song song : songList) {
+            copy.add(new Song(song));
+        }
+
+        return copy;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+
+        if (this == o) return true;
+
+        if (!(o instanceof Album)) return false;
+
+        Album other = (Album) o;
+        return this.title.equals(other.getTitle()) && this.artist.equals(other.getArtist());
     }
 
     @Override
