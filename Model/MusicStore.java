@@ -35,6 +35,7 @@ public class MusicStore {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            
         } else { 
         	try {
         		InputStream is = this.getClass().getResourceAsStream("/albums/albums.txt");
@@ -47,13 +48,14 @@ public class MusicStore {
                     BufferedReader albumReader = new BufferedReader(new InputStreamReader(albumStream));
                     Album currAlbum = new Album(albumReader);
                     for (Song currSong : currAlbum.getTracks()) {
-                        storeSongs.add(currSong);
+                        songs.add(currSong);
                     }
-                    storeAlbums.add(currAlbum);
+                    albums.add(currAlbum);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
     }
 
     private String buildSongOutput(ArrayList<Song> matches) {

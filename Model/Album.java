@@ -37,6 +37,7 @@ public class Album {
             e.printStackTrace();
         }
     }
+    
     public Album (BufferedReader br) {
     	try {
 	    	String[] infoLine = br.readLine().split(",");
