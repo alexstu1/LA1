@@ -18,6 +18,18 @@ public class Playlist {
         return name;
     }
 
+    public int countSong(String title) {
+        /* Returns the number of songs on the playlist with a title matching
+         * the provided title string
+         */
+        ArrayList<Song> matches = new ArrayList<Song>();
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(title)) matches.add(song);
+        }
+
+        return matches.size();
+    }
+
     public boolean hasSong(Song song) {
         if (songs.contains(song)) return true;
 
@@ -28,15 +40,8 @@ public class Playlist {
         songs.add(song);
     }
 
-    public ArrayList<Song> getMatches(String title) {
-        // Returns a deep-copy array containing all songs
-        // in the playlist with a name matching the specified name
-        ArrayList<Song> matches = new ArrayList<Song>();
-        for (Song song : songs) {
-            if (song.getTitle().equalsIgnoreCase(title)) matches.add(new Song(song));
-        }
-
-        return matches;
+    public void removeSong(Song song) {
+        songs.remove(song);
     }
 
     public void removeSong(String title) {
@@ -87,7 +92,7 @@ public class Playlist {
 
         output.append("Track List:\n");
         for (int i = 0; i < songs.size(); i++) {
-            output.append(String.format("   %d. %s", i + 1, songs.get(i).toString()));
+            output.append(String.format("   %d. %s\n", i + 1, songs.get(i).toString()));
         }
 
         return output.toString();

@@ -7,7 +7,7 @@ import java.util.Scanner;
  */
 
 public class View {
-	private static LibraryModel lib = new LibraryModel();
+	private static MusicStore store = new MusicStore();
 	public static void main(String[] args) {
 		/* This method prompts and reads user input, then calls the necessary functions.
 		 * It does not check or use any command line arguments when running the file.
@@ -357,7 +357,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByTitleStore(search));
+		System.out.println(store.songSearchByTitleStore(search));
 	}
 
 	private static void songFromStoreByArtist(Scanner input) {
@@ -367,7 +367,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's artist:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByArtistStore(search));
+		System.out.println(store.songSearchByArtistStore(search));
 	}
 
 	private static void albumFromStoreByTitle(Scanner input) {
@@ -377,7 +377,7 @@ public class View {
 		 */
 		System.out.println("Enter the album's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getAlbumByTitleStore(search));
+		System.out.println(store.albumSearchByTitleStore(search));
 	}
 
 	private static void albumFromStoreByArtist(Scanner input) {
@@ -387,7 +387,7 @@ public class View {
 		 */
 		System.out.println("Enter album's artist:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getAlbumByArtistStore(search));
+		System.out.println(store.albumSearchByArtistStore(search));
 	}
 
 	private static void songFromLibraryByTitle(Scanner input) {
@@ -397,7 +397,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByTitle(search));
+		System.out.println(store.songSearchByTitleUser(search));
 	}
 
 	private static void songFromLibraryByArtist(Scanner input) {
@@ -407,7 +407,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's artist:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByArtist(search));
+		System.out.println(store.songSearchByArtistUser(search));
 	}
 
 	private static void albumFromLibraryByTitle(Scanner input) {
@@ -417,7 +417,7 @@ public class View {
 		 */
 		System.out.println("Enter the album's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getAlbumByTitle(search));
+		System.out.println(store.albumSearchByTitleUser(search));
 	}
 
 	private static void albumFromLibraryByArtist(Scanner input) {
@@ -427,7 +427,7 @@ public class View {
 		 */
 		System.out.println("Enter the album's artist:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getAlbumByArtist(search));
+		System.out.println(store.albumSearchByArtistUser(search));
 	}
 
 	private static void playlistSearch(Scanner input) {
@@ -437,32 +437,32 @@ public class View {
 		 */
 		System.out.println("Enter the playlist's name:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getPlaylist(search));
+		System.out.println(store.searchPlaylist(search));
 	}
 
 	private static void getSongs() {
 		// This method prints all songs in the music store.
-		System.out.println(lib.getSongs());
+		System.out.println(store.getSongTitles());
 	}
 
 	private static void getArtists() {
 		// This method prints all artist's names who have songs in the music store.
-		System.out.println(lib.getArtists());
+		System.out.println(store.getArtists());
 	}
 
 	private static void getAlbums() {
 		// This method prints the names of all albums in the music store.
-		System.out.println(lib.getAlbums());
+		System.out.println(store.getAlbums());
 	}
 
 	private static void getPlaylists() {
 		// This method prints the names of all play lists.
-		System.out.println(lib.getPlaylists());
+		System.out.println(store.getPlaylists());
 	}
 
 	private static void getFavorites() {
 		// This method prints all songs that the user has favorited or rated '5'.
-		System.out.println(lib.getFavorites());
+		System.out.println(store.getFavoriteSongs());
 	}
 	
 	private static void rateSongNum(Scanner input, String songName) {
@@ -477,56 +477,18 @@ public class View {
 		 */
 		System.out.println("Rate the song 1-5:");
 		int rating = Integer.parseInt(input.nextLine());
-		String output = lib.rateSong(songName, rating);
-		System.out.println(output);
-		if (output.equals("There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is rated.")) {
-			rateSongNum(input, songName, rating);
-		}
+		System.out.println(store.rateSong(songName, rating));
 	}
-
-	private static void rateSongNum(Scanner input, String songName, int rating) {
-		/* This method is used to rate a song when there are multiple songs in the user's library
-		 * with a name matching the specified song name
-		 * Arguments:
-		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
-		 * 		songName: The String name of the song to rate
-		 * 		rating: The int rating to give the song
-		 * 
-		 * Returns null.
-		 */
-		System.out.println(lib.buildFavoriteRateSongDupeString(songName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.rateSong(songName, rating, artist));
-	}
-
-
 
 	private static void favoriteSong(Scanner input) {
 		/* This method is used to favorite a song.
 		* Argument: A scanner object that is monitoring the command line where the user enters their selection.
+		 * Returns null. 
 		 * Returns null.
 		 */
 		System.out.println("Enter the song's name you want to favorite.");
 		String songName = input.nextLine().trim().toLowerCase();
-		String output = lib.favoriteSong(songName);
-		System.out.println(output);
-		if (output.equals("There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is favorited.")) {
-			favoriteSong(input, songName);
-		}
-	}
-
-	public static void favoriteSong(Scanner input, String songName) {
-		/* This method is used to favorite a song when the user's library contains multiple songs
-		 * with a name matching the specified song name
-		 * Arguments:
-		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
-		 * 		songName: The String name of the song to favorite
-		 * Returns null.
-		 */
-		System.out.println(lib.buildFavoriteRateSongDupeString(songName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.favoriteSong(songName, artist));
-
+		System.out.println(store.favoriteSong(songName));
 	}
 
 	private static void createPlaylist(Scanner input) {
@@ -536,7 +498,7 @@ public class View {
 		 */
 		System.out.println("What do you want to name your playlist?");
 		String name = input.nextLine();
-		System.out.println(lib.makePlaylist(name));
+		System.out.println(store.makePlaylist(name));
 	}
 
 	private static void addSongToPlaylist(Scanner input, String playlistName) {
@@ -549,26 +511,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's name you'd like to add to your playlist.");
 		String songName = input.nextLine().trim().toLowerCase();
-		String output = lib.addToPlaylist(playlistName, songName);
-		System.out.println(output);
-		if (output.equals("There are multiple songs with that title in your library, please specify the artist to ensure the correct one is added.")) {
-			addSongToPlaylist(input, playlistName, songName);
-		}
-	}
-
-	private static void addSongToPlaylist(Scanner input, String playlistName, String songName) {
-		/* This method is used to add a song to a provided playlist when there are multiple songs
-		 * with the specified name in the user's library
-		 * Arguments:
-		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
-		 * 		playlistName: The String name of the play list to add a song to.
-		 * 		songName: The String name of the song to add to the playlist
-		 * 
-		 * Returns null. 
-		 */
-		System.out.println(lib.buildAddToPlaylistDupeString(songName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.addToPlaylist(playlistName, songName, artist));
+		System.out.println(store.addToPlaylist(playlistName, songName));
 	}
 
 	private static void removeSongFromPlaylist(Scanner input, String playlistName) {
@@ -581,26 +524,8 @@ public class View {
 		 */
 		System.out.println("Enter the song's name you'd like to remove.");
 		String songName = input.nextLine().toLowerCase();
-		String output = lib.removeFromPlaylist(playlistName, songName);
-		System.out.println(output);
-		if (output.equals("There are multiple songs on that playlist with that name. Please specify the artist to ensure the correct one is removed.")) {
-			removeSongFromPlaylist(input, playlistName, songName);
-		}
+		System.out.println(store.removeFromPlaylist(playlistName, songName));
 	}
-
-	private static void removeSongFromPlaylist(Scanner input, String playlistName, String songName) {
-		/* This method is used to remove a song from a provided playlist when multiple songs
-		 * on the playlist share the name of the specified song to remove
-		 * Arguments:
-		 * 		input: A scanner object that is monitoring the command line where the user enters their selection.
-		 * 		playlistName: The String name of the playlist to remove a song from.
-		 * 		songName: The String name of the song to remove from the playlist
-		 */
-		System.out.println(lib.buildRemoveFromPlaylistDupeString(playlistName, songName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.removeFromPlaylist(playlistName, songName, artist));
-	}
-
 	private static void addSongToLibrary(Scanner input) {
 		/* This method is used to add a song to the user library
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
@@ -608,22 +533,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's name you'd like to add to your library.");
 		String songName = input.nextLine().trim().toLowerCase();
-		String output = lib.addSong(songName);
-		System.out.println(output);
-		if (output.equals("There are multiple songs with that title in our library. Please specify the artist to ensure we add the correct one!")) {
-			addSongToLibrary(input, songName);
-		}
-	}
-
-	public static void addSongToLibrary(Scanner input, String songName) {
-		/* This method is used to add a song to the user library if there are multiple songs with the specified name
-		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
-		 * Argument: The string name of the song to add
-		 * Returns null. 
-		 */
-		System.out.println(lib.buildAddSongDupeString(songName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.addSong(songName, artist));
+		System.out.println(store.addSongToUser(songName));
 	}
 
 	public static void addAlbumToLibrary(Scanner input) {
@@ -633,22 +543,6 @@ public class View {
 		 */
 		System.out.println("Enter the album's name you'd like to add to your library.");
 		String albumName = input.nextLine().trim().toLowerCase();
-		String output = lib.addAlbum(albumName);
-		System.out.println(output);
-		if (output.equals("There are multiple albums with that title in our library. Please specify the artist to ensure we add the correct one!")) {
-			addAlbumToLibrary(input, albumName);
-		}
+		System.out.println(store.addAlbumToUser(albumName));
 	}
-
-	public static void addAlbumToLibrary(Scanner input, String albumName) {
-		/* This method is used to add an album to the user library if there are multiple album with the specified name
-		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
-		 * Argument: The string name of the album to add
-		 * Returns null. 
-		 */
-		System.out.println(lib.buildAddAlbumDupeString(albumName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.addSong(albumName, artist));
-	}
-
 }

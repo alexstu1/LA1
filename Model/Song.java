@@ -22,16 +22,6 @@ public class Song {
         this.isFavorite = false;
     }
 
-    public Song(Song song) {
-        /* Copy constructor
-         */
-        this.title = song.getTitle();
-        this.artist = song.getArtist();
-        this.albumName = song.getAlbum();
-        this.isRated = false;
-        this.isFavorite = false;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -66,7 +56,7 @@ public class Song {
             rating = 5;
             this.favorite();
         }
-
+        
         else rating = userRating;
     }
 
@@ -80,18 +70,6 @@ public class Song {
 
     public void unfavorite() {
         isFavorite = false;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null) return false;
-
-        if (this == o) return true;
-
-        if (!(o instanceof Song)) return false;
-
-        Song other = (Song) o;
-        return this.title.equals(other.getTitle()) && this.artist.equals(other.getArtist());
     }
 
     @Override
