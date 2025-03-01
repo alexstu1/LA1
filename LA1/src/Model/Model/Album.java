@@ -38,6 +38,14 @@ public class Album {
         }
     }
     public Album (BufferedReader br) {
+	/* Argument: A BufferedReader object of the file that stores the data for the album.
+    	 * 
+    	 * This class represents an album.
+    	 * It can only represent albums given in a text file in the following format:
+    	 * 
+    	 * first line: comma separated values of "title,artist,genre,year"
+    	 * A song name on each remaining line of the file.
+    	 */
     	try {
 	    	String[] infoLine = br.readLine().split(",");
 	        this.title = infoLine[0];
