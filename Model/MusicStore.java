@@ -35,7 +35,25 @@ public class MusicStore {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        } else { 
+        	try {
+        		InputStream is = this.getClass().getResourceAsStream("/albums/albums.txt");
+        		BufferedReader fileReader = new BufferedReader(new InputStreamReader(is));
+                String line;
+                while ((line = fileReader.readLine()) != null) {
+                    String[] lineSplit = line.split(",");
+                    this.getClass().getResourceAsStream(albumsPath+"/"+lineSplit[0].trim()+"_"+lineSplit[1].trim() + ".txt");
+                    InputStream albumStream = this.getClass().getResourceAsStream("/"+albumsPath+"/"+lineSplit[0].trim()+"_"+lineSplit[1].trim() + ".txt");
+                    BufferedReader albumReader = new BufferedReader(new InputStreamReader(albumStream));
+                    Album currAlbum = new Album(albumReader);
+                    for (Song currSong : currAlbum.getTracks()) {
+                        storeSongs.add(currSong);
+                    }
+                    storeAlbums.add(currAlbum);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
     }
 
     private String buildSongOutput(ArrayList<Song> matches) {
