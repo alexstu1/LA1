@@ -37,6 +37,25 @@ public class Album {
             e.printStackTrace();
         }
     }
+    public Album (BufferedReader br) {
+    	try {
+	    	String[] infoLine = br.readLine().split(",");
+	        this.title = infoLine[0];
+	        this.artist = infoLine[1];
+	        this.genre = infoLine[2];
+	        this.year = Integer.parseInt(infoLine[3]);
+	        this.songList = new ArrayList<Song>();
+	
+	        String line;
+	        while ((line = br.readLine()) != null) {
+	            Song track = new Song(line, artist, title);
+	            songList.add(track);  
+        	}
+    	} catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public Album(Album album) {
         // Copy constructor
