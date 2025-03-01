@@ -22,6 +22,7 @@ class AlbumTest {
             writer.write("C\n");
         }
         album = new Album(testFile);
+
     }
 
     @Test
@@ -31,6 +32,17 @@ class AlbumTest {
         assertEquals("Computer Science", album.getGenre());
         assertEquals(2025, album.getYear());
         assertEquals(3, album.getTracks().size());
+    }
+
+    @Test
+    void testConstructorFromBufferedReader() throws FileNotFoundException {
+        BufferedReader fileReader = new BufferedReader(new FileReader(testFile));
+        Album brAlbum = new Album(fileReader);
+        assertEquals("LA1", brAlbum.getTitle());
+        assertEquals("Eric and Alex", brAlbum.getArtist());
+        assertEquals("Computer Science", brAlbum.getGenre());
+        assertEquals(2025, brAlbum.getYear());
+        assertEquals(3, brAlbum.getTracks().size());
     }
     
     @Test
