@@ -314,7 +314,7 @@ public class View {
 		}
 	}
 
-	public static void rateSongs(Scanner input) {
+	private static void rateSongs(Scanner input) {
 		/* This method is used to determine if the user wants to rate or favorite a song
 		 * 
 		 */
@@ -335,7 +335,7 @@ public class View {
 		}
 	}
 
-	public static void rateSong(Scanner input) {
+	private static void rateSong(Scanner input) {
 		/* This method is used to get the song's name the user wants to rate.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null.  
@@ -536,7 +536,7 @@ public class View {
 		System.out.println(store.addSongToUser(songName));
 	}
 
-	public static void addAlbumToLibrary(Scanner input) {
+	private static void addAlbumToLibrary(Scanner input) {
 		/* This method is used to add an album to the user library
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
