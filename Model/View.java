@@ -229,7 +229,7 @@ public class View {
 		System.out.println("Enter [S] to retrieve all songs, [AR] for artists, [AL] for albums, [P] for playlists, [F] for favorites, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "s":
-				getSongs();
+				getSongs(input);
 				break;
 			case "ar":
 				getArtists();
@@ -476,9 +476,37 @@ public class View {
 		System.out.println(lib.getPlaylist(search));
 	}
 
-	private static void getSongs() {
+	private static void getSongs(Scanner input) {
 		// This method prints all songs in the music store.
-		System.out.println(lib.getSongs());
+		System.out.println("Would you like to sort your results by [T] title, [A] artist, or [R] rating? Enter [N] to not sort. ");
+		switch (input.nextLine().trim().toLowerCase()) {
+			case "t":
+				getSongsSortedByTitle();
+				break;
+			case "a":
+				getSongsSortedByArtist();
+				break;
+			case "r":
+				getSongsSortedByRating();
+				break;
+			default:
+				System.out.println(lib.getSongs());
+		}
+	}
+
+	private static void getSongsSortedByTitle() {
+		// This method prints all songs in the user's library sorted by title.
+		System.out.println(lib.getSongsSortedByTitle());
+	}
+
+	private static void getSongsSortedByArtist() {
+		// This method prints all songs in the user's library sorted by artist.
+		System.out.println(lib.getSongsSortedByArtist());
+	}
+
+	private static void getSongsSortedByRating() {
+		// This method prints all songs in the user's library sorted by rating.
+		System.out.println(lib.getSongsSortedByRating());
 	}
 
 	private static void getArtists() {
