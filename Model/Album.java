@@ -29,7 +29,7 @@ public class Album {
 
             String line;
             while ((line = fileReader.readLine()) != null) {
-                Song track = new Song(line, artist, title);
+                Song track = new Song(line, artist, genre, title);
                 songList.add(track);  
             }
 
@@ -49,15 +49,14 @@ public class Album {
 	
 	        String line;
 	        while ((line = br.readLine()) != null) {
-	            Song track = new Song(line, artist, title);
+	            Song track = new Song(line, artist, genre, title);
 	            songList.add(track);  
         	}
     	} catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
+    
     public Album(Album album) {
         // Copy constructor
         this.title = album.getTitle();

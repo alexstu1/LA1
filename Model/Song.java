@@ -7,8 +7,10 @@ public class Song {
     private boolean isRated;
     private int rating;
     private boolean isFavorite;
+    private int timesPlayed;
+    private String genre;
 
-    public Song(String title, String artist, String albumName) {
+    public Song(String title, String artist, String genre, String albumName) {
     	/* This object represents a song on an album.
     	 * Constructor Arguments;
     	 * 		title: String name of the song.
@@ -18,8 +20,11 @@ public class Song {
         this.title = title;
         this.artist = artist;
         this.albumName = albumName;
+        this.genre = genre;
+        this.timesPlayed = 0;
         this.isRated = false;
         this.isFavorite = false;
+
     }
 
     public Song(Song song) {
@@ -28,6 +33,8 @@ public class Song {
         this.title = song.getTitle();
         this.artist = song.getArtist();
         this.albumName = song.getAlbum();
+        this.genre = song.getGenre();
+        this.timesPlayed = song.getTimesPlayed();
         this.isRated = false;
         this.isFavorite = false;
     }
@@ -50,6 +57,19 @@ public class Song {
     
     public int getRating() {
         return rating;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getTimesPlayed() {
+        return timesPlayed;
+    }
+
+    public String play() {
+        timesPlayed++;
+        return "Now playing: " + this.toString();
     }
 
     public void setRating(int userRating) {
@@ -99,7 +119,7 @@ public class Song {
     	/* This method creates a string representation of the song, meant to be printed out to the user.
     	 */
         StringBuilder output = new StringBuilder();
-        output.append(String.format("%s - %s | Appears on: %s", artist, title, albumName));
+        output.append(String.format("%s - %s | Genre: %s | Appears on: %s", artist, title, genre, albumName));
         if (isRated) {
             output.append(String.format(" | You Rated: %d/5", rating));
         }
