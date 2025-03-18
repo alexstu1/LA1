@@ -63,7 +63,7 @@ public class View {
 		System.out.println("SEARCH:         Enter [S] and follow the instructions to search for a song, album, or playlist.");
 		System.out.println("GET ALL:        Enter [G] and follow the instructions to retrieve all of a certain category (songs, albums, etc.) from your library.");
 		System.out.println("PLAYLIST:       Enter [P] and follow the instructions to create or modify a playlist.");
-		System.out.println("LIBRARY:        Enter [L] to add a song or entire album to your library.");
+		System.out.println("LIBRARY:        Enter [L] to add or remove a song or entire album to your library.");
 		System.out.println("RATE/FAVORITE:  Enter [R] to rate or favorite a song.");
 		System.out.println("RETURN TO MENU: Enter [M] at any point to return the main menu.");
 		System.out.println("EXIT APP:       Enter [E] to terminate the program.");
@@ -252,6 +252,42 @@ public class View {
 	}
 
 	private static void modifyLibrary(Scanner input) {
+		/* This method will guide the user through modifying their library.
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
+		 * Returns null.
+		 */
+		System.out.println("Enter [A] to add something to the library, [R] to remove something, or [M] to return to the main menu.");
+		switch (input.nextLine().trim().toLowerCase()) {
+			case "a":
+				addToLibrary(input);
+				break;
+			case "r":
+				removeFromLibrary(input);
+				break;
+			case "m":
+				return;
+			default:
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
+				modifyLibrary(input);
+		}
+	}
+
+	private static void removeFromLibrary(Scanner input) {
+		System.out.println("Enter [S] to remove a song from your library, [A] to remove an album, or [M] to return to the main menu.");
+		switch (input.nextLine().trim().toLowerCase()) {
+			case "s":
+				removeSongLibrary(input);
+				break;
+			case "a":
+				removeAlbumLibrary(input);
+				break;
+			case "m":
+				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
+				removeFromLibrary(input);
+		}
+	}
+
+	private static void addToLibrary(Scanner input) {
 		/* This method is used to add a song or album to the user library.
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
@@ -268,7 +304,7 @@ public class View {
 				return;
 			default:
 				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
-				modifyLibrary(input);
+				addToLibrary(input);
 		}
 	}
 	
@@ -571,6 +607,8 @@ public class View {
 		System.out.println(lib.addToPlaylist(playlistName, songName, artist));
 	}
 
+	
+
 	private static void removeSongFromPlaylist(Scanner input, String playlistName) {
 		/* This method is used to remove a song to a provided play list.
 		 * Arguments:
@@ -626,6 +664,22 @@ public class View {
 		System.out.println(lib.addSong(songName, artist));
 	}
 
+	private static void removeSongLibrary(Scanner input) {
+		System.out.println("Enter the song's name you'd like to remove from your library.");
+		String songName = input.nextLine().trim().toLowerCase();
+		String output = lib.removeSong(songName);
+		System.out.println(output);
+		if (output.equals("There are multiple songs with that title in our library. Please specify the artist to ensure we remove the correct one!")) {
+			removeSongLibrary(input, songName);
+		}
+	}
+
+	public static void removeSongLibrary(Scanner input, String songName) {
+		System.out.println(lib.buildAddSongDupeString(songName));
+		String artist = input.nextLine().trim().toLowerCase();
+		System.out.println(lib.removeSong(songName, artist));
+	}
+
 	public static void addAlbumToLibrary(Scanner input) {
 		/* This method is used to add an album to the user library
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
@@ -648,7 +702,22 @@ public class View {
 		 */
 		System.out.println(lib.buildAddAlbumDupeString(albumName));
 		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.addSong(albumName, artist));
+		System.out.println(lib.addAlbum(albumName, artist));
 	}
 
+	public static void removeAlbumLibrary(Scanner input) {
+		System.out.println("Enter the album's name you'd like to remove from your library.");
+		String albumName = input.nextLine().trim().toLowerCase();
+		String output = lib.removeAlbum(albumName);
+		System.out.println(output);
+		if (output.equals("There are multiple albums with that title in our library. Please specify the artist to ensure we remove the correct one!")) {
+			removeAlbumLibrary(input, albumName);
+		}
+	}
+
+	public static void removeAlbumLibrary(Scanner input, String albumName) {
+		System.out.println(lib.buildAddAlbumDupeString(albumName));
+		String artist = input.nextLine().trim().toLowerCase();
+		System.out.println(lib.removeAlbum(albumName, artist));
+	}
 }
