@@ -9,6 +9,7 @@ public class Song {
     private boolean isFavorite;
     private int timesPlayed;
     private String genre;
+    private long playedWhen;
 
     public Song(String title, String artist, String genre, String albumName) {
     	/* This object represents a song on an album.
@@ -24,7 +25,7 @@ public class Song {
         this.timesPlayed = 0;
         this.isRated = false;
         this.isFavorite = false;
-
+        this.playedWhen = 0;
     }
 
     public Song(Song song) {
@@ -67,8 +68,13 @@ public class Song {
         return timesPlayed;
     }
 
+    public long getWhenPlayed() {
+        return playedWhen;
+    }
+
     public String play() {
         timesPlayed++;
+        playedWhen = System.currentTimeMillis();
         return "Now playing: " + this.toString();
     }
 
