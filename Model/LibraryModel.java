@@ -659,7 +659,7 @@ public class LibraryModel {
     	for (Song song : songs) {
     		if(!toAdd.contains(song.getAlbum())) {
     			toAdd.add(song.getAlbum());
-    			toReturn = toReturn+song.getAlbum();
+    			toReturn = toReturn+song.getAlbum()+"\n";
     		}
     	}
     	return toReturn;
