@@ -585,4 +585,13 @@ public class LibraryModel {
     public String getAlbumByArtistStore(String artist) {
         return store.getAlbumByArtist(artist);
     }
+    public String getSongsSortedByTitle() {
+        return store.getSongsSortedByTitle();
+    }
+    public String getSongsSortedByArtist() {
+    	return store.getSongsSortedByArtist();
+    }
+    public String getSongsSortedByRating() {
+    	return store.getSongsSortedByRating();
+    }
 }
