@@ -71,6 +71,30 @@ public class Playlist {
         songs.remove(removing);
         return true;
     }
+        /*	This is only for shuffling without permanent changes, likely delete later
+     * public String getShuffled() {
+        StringBuilder output = new StringBuilder();
+        output.append("Playlist: ").append(name).append("\n");
+        if (songs.size() == 0) {
+            output.append("You dont currently have any tracks on this playlist. Add some to get started!");
+            return output.toString();
+        }
+
+        output.append("Track List:\n");
+        ArrayList<Song> copied = new ArrayList<Song>();
+        for (Song song : songs) {
+        	copied.add(new Song(song));
+        }
+        Collections.shuffle(copied);
+        for (int i = 0; i < copied.size(); i++) {
+            output.append(String.format("   %d. %s", i + 1, copied.get(i).toString()));
+        }
+        
+        return output.toString();
+    }*/
+    public void shuffle() {
+    	Collections.shuffle(songs);
+    }
 
     @Override
     public String toString() {
