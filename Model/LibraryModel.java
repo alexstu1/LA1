@@ -649,4 +649,7 @@ public class LibraryModel {
     	}
     	return toReturn;
     }	
+    public void shuffle() {
+    	Collections.shuffle(songs);
+    }
 }
