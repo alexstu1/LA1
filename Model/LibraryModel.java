@@ -13,6 +13,9 @@ public class LibraryModel {
         this.songs = new ArrayList<Song>();
         this.albums = new ArrayList<Album>();
         this.playlists = new ArrayList<Playlist>();
+        
+               //Below adds the automaintained playlists
+        this.playlists.add(new Playlist("Recently Played"));
     }
 
     private String buildSongOutput(ArrayList<Song> matches) {
@@ -675,5 +678,43 @@ public class LibraryModel {
     	if (toReturn =="")
     		return "There are no songs that match that genre in your library.\n";
     	return "The following songs are in the genre "+genreSearch+":\n"+toReturn;
+    }
+        /*This didnt implement recent songs as a playlist implementation changed
+     * public String getRecentSongs() {
+    	ArrayList<Song> sortedByTime = new ArrayList<Song>();
+    	for (Song song : songs) {
+    		if (sortedByTime.size()==0) sortedByTime.add(song);
+    		if (song.getWhenPlayed()==0) continue;
+    		boolean added = false;
+    		for (int i=0;i<sortedByTime.size();i++) {
+    			if (sortedByTime.get(i).getWhenPlayed()<=song.getWhenPlayed()) {
+    				sortedByTime.add(i, new Song(song));
+    				added = true;
+    				break;
+    			}
+    		}
+    		if(!added) {
+    			sortedByTime.add(song);
+    		}
+    	}
+    	if(sortedByTime.size()==0) {
+    		return "No songs have been played yet, play some songs to get recents";
+    	}
+    	int max = 10;
+    	if (sortedByTime.size()<10) {
+    		max=sortedByTime.size();
+    	}
+    	String toReturn = "The following songs have been recently played:\n";
+    	for (int i = 0;i<max;i++) {
+    		toReturn = toReturn + sortedByTime.get(i).toString();
+    	}
+    	return toReturn;
+    }*/
+    public void updateRecents(Song played) {
+    	Playlist recents = this.playlists.get(0);
+    	recents.addSong(0,new Song(played));
+    	if (recents.getSize()==11) {
+    		recents.removeSong(11);
+    	}
     }
 }
