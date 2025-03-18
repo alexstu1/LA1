@@ -27,6 +27,12 @@ public class Playlist {
     public void addSong(Song song) {
         songs.add(song);
     }
+    public void addSong(int index,Song song) {
+        songs.add(index, song);
+    }
+    public void removeSong(int index) {
+    	songs.remove(index);
+    }
 
     public ArrayList<Song> getMatches(String title) {
         // Returns a deep-copy array containing all songs
