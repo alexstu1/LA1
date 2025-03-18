@@ -652,4 +652,16 @@ public class LibraryModel {
     public void shuffle() {
     	Collections.shuffle(songs);
     }
+    public String getContainedAlbums() {
+    	if (songs.size()==0) return "Your library is empty. Please add songs to get started!\n";
+    	String toReturn = "Songs from the following albums are present in the library:\n";
+    	ArrayList<String> toAdd = new ArrayList<String>();
+    	for (Song song : songs) {
+    		if(!toAdd.contains(song.getAlbum())) {
+    			toAdd.add(song.getAlbum());
+    			toReturn = toReturn+song.getAlbum();
+    		}
+    	}
+    	return toReturn;
+    }
 }
