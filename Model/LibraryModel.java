@@ -664,4 +664,16 @@ public class LibraryModel {
     	}
     	return toReturn;
     }
+    public String getSongByGenre(String genreSearch) {
+    	if (songs.size()==0) return "Your library is empty. Please add songs to get started!\n";
+    	String toReturn = "";
+    	for (Song song : songs) {
+    		if (song.getGenre().toLowerCase()==genreSearch.toLowerCase()) {
+    			toReturn = toReturn + song.toString();
+    		}
+    	}
+    	if (toReturn =="")
+    		return "There are no songs that match that genre in your library.\n";
+    	return "The following songs are in the genre "+genreSearch+":\n"+toReturn;
+    }
 }
