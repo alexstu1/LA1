@@ -586,12 +586,67 @@ public class LibraryModel {
         return store.getAlbumByArtist(artist);
     }
     public String getSongsSortedByTitle() {
-        return store.getSongsSortedByTitle();
+    	String toReturn = "";
+    	ArrayList<Song> sorting = new ArrayList<Song>();
+    	for (Song toSort : songs) {
+    		if (sorting.size()==0)	sorting.add(toSort);
+    		boolean added = false;
+    		for (int i=0;i<sorting.size();i++) {
+    			int compared = sorting.get(i).getTitle().compareTo(toSort.getTitle());
+    			if (compared>=0) {
+    				sorting.add(i, toSort);
+    				added =true;
+    				break;
+    			}
+    		}
+    		if (!added) sorting.add(toSort);
+    	}
+    	for (Song toBuild : sorting) {
+    		toReturn=toReturn + toBuild.toString();
+    	}
+    	return toReturn;
     }
     public String getSongsSortedByArtist() {
-    	return store.getSongsSortedByArtist();
-    }
+    	String toReturn = "";
+    	ArrayList<Song> sorting = new ArrayList<Song>();
+    	for (Song toSort : songs) {
+    		if (sorting.size()==0)	sorting.add(toSort);
+    		boolean added = false;
+    		for (int i=0;i<sorting.size();i++) {
+    			int compared = sorting.get(i).getArtist().compareTo(toSort.getArtist());
+    			if (compared>=0) {
+    				sorting.add(i, toSort);
+    				added =true;
+    				break;
+    			}
+    		}
+    		if (!added) sorting.add(toSort);
+    	}
+    	for (Song toBuild : sorting) {
+    		toReturn=toReturn + toBuild.toString();
+    	}
+    	return toReturn;
+    }	
     public String getSongsSortedByRating() {
-    	return store.getSongsSortedByRating();
-    }
+    	String toReturn = "";
+    	ArrayList<Song> sorting = new ArrayList<Song>();
+    	for (Song toSort : songs) {
+    		if (sorting.size()==0)	sorting.add(toSort);
+    		boolean added = false;
+    		for (int i=0;i<sorting.size();i++) {
+    			Boolean compared = sorting.get(i).getRating()<=toSort.getRating();
+    			if (compared) {
+    				sorting.add(i, toSort);
+    				added =true;
+    				break;
+    			}
+    		}
+    		if (!added) sorting.add(toSort);
+    	}
+    	System.out.println(sorting.size());
+    	for (Song toBuild : sorting) {
+    		toReturn=toReturn + toBuild.toString();
+    	}
+    	return toReturn;
+    }	
 }
