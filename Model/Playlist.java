@@ -34,6 +34,9 @@ public class Playlist {
     public void removeSong(int index) {
     	songs.remove(index);
     }
+    public int getSize() {
+    	return songs.size();
+    }
 
     public ArrayList<Song> getMatches(String title) {
         // Returns a deep-copy array containing all songs
