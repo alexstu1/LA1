@@ -37,7 +37,11 @@ public class Playlist {
     public int getSize() {
     	return songs.size();
     }
-
+    public boolean contains(Song toCheck) {
+    	for (Song song : songs) {
+    		if (song.equals(toCheck)) return true;
+    	} return false;
+    }
     public ArrayList<Song> getMatches(String title) {
         // Returns a deep-copy array containing all songs
         // in the playlist with a name matching the specified name
