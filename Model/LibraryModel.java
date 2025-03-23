@@ -15,7 +15,10 @@ public class LibraryModel {
         this.playlists = new ArrayList<Playlist>();
         
                //Below adds the automaintained playlists
+        	//THEY ARE ASSUMED TO BE THE FIRST FEW PLAYLISTS IN THE PLAYLISTS ARRAYLISTS
         this.playlists.add(new Playlist("Recently Played"));
+        this.playlists.add(new Playlist("Most Played"));
+        this.playlists.add(new Playlist("Highly Rated"));
     }
 
     private String buildSongOutput(ArrayList<Song> matches) {
@@ -717,6 +720,63 @@ public class LibraryModel {
     	}
     	if (recents.getSize()==11) {
     		recents.removeSong(11);
+    	}
+    }
+
+    public void updateMostPlayed() {
+    	ArrayList<Song> toUpdate = new ArrayList<Song>();
+    	toUpdate.add(new Song(songs.get(0)));
+    	for (Song song: songs) {
+    		if (song.getTimesPlayed()>toUpdate.getLast().getTimesPlayed()) {
+    			for (int idx = 0;idx<toUpdate.size();idx++) {
+    				if(toUpdate.get(idx).getTimesPlayed()<song.getTimesPlayed()) {
+    					toUpdate.add(idx, new Song(song));
+    				}
+    				if (toUpdate.size()==11) toUpdate.removeLast();
+    			}
+    		}
+    	}
+    	Playlist newPlaylist = new Playlist("Most Played");
+    	for (Song song: toUpdate) {
+    		newPlaylist.addSong(new Song(song));
+    	}
+    	playlists.remove(1);
+    	playlists.add(1, newPlaylist);
+    }
+    public void updateHighRating() {
+    	ArrayList<Song> toUpdate = new ArrayList<Song>();
+    	for (Song song: songs) {
+    		if (song.isRated()&&(song.getRating()>=4)) {
+    			toUpdate.add(new Song(song));
+    		}
+    	}
+    	Playlist newPlaylist = new Playlist("Most Played");
+    	for (Song song: toUpdate) {
+    		newPlaylist.addSong(new Song(song));
+    	}
+    	playlists.remove(2);
+    	playlists.add(2, newPlaylist);
+    }
+
+    public void autoMakeGenrePlaylists() {
+    	HashMap<String,ArrayList<Song>> genreCounts = new HashMap<String,ArrayList<Song>>();
+    	for (Song song: songs) {
+    		String genre = song.getGenre();
+    		if (!genreCounts.containsKey(genre)){
+    			genreCounts.put(genre, new ArrayList<Song>());
+    		}
+    			genreCounts.get(genre).add(new Song(song));
+
+    	}
+    	for(String genre : genreCounts.keySet()) {
+    		if(genreCounts.get(genre).size()>=10) {
+    			//MAKE GENRE PLAYLIST HERE
+    			Playlist newPlaylist = new Playlist(genre);
+    			for(Song song : genreCounts.get(genre)) {
+    				newPlaylist.addSong(song);
+    			}
+    			playlists.add(3, newPlaylist);
+    		}
     	}
     }
 }
