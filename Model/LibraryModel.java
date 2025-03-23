@@ -712,7 +712,9 @@ public class LibraryModel {
     }*/
     public void updateRecents(Song played) {
     	Playlist recents = this.playlists.get(0);
-    	recents.addSong(0,new Song(played));
+    	if (!recents.contains(new Song(played))) {
+    		recents.addSong(0,new Song(played));
+    	}
     	if (recents.getSize()==11) {
     		recents.removeSong(11);
     	}
