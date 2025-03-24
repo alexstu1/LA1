@@ -59,6 +59,11 @@ public class MusicStore {
     }
 
     private String buildSongOutput(ArrayList<Song> matches) {
+        /* This method is used to create a printable search string from a list of found songs.
+         * Argument:
+         *     matches: An arraylist of Songs that are to be printed out.
+         * Returns: A string meant to be printed to the user of the list of songs.
+         */
         StringBuilder output = new StringBuilder("These are the songs that match your search:\n");
         for (Song song : matches) {
             output.append(song.toString());
@@ -68,6 +73,11 @@ public class MusicStore {
     }
 
     private String buildAlbumOutput(ArrayList<Album> matches) {
+        /* This method is used to create a printable search string from a list of found albums.
+         * Argument:
+         *     matches: An arraylist of Albums that are to be printed out.
+         * Returns: A string meant to be printed to the user of the list of albums.
+         */
         StringBuilder output = new StringBuilder("These are the albums that match your search:\n");
         for (Album album : matches) {
             output.append(album.toString());
@@ -89,6 +99,11 @@ public class MusicStore {
     }
     
     private ArrayList<Song> songByTitleHelper(String title) {
+        /* This method searches the store for a songs name and returns all matches.
+         * Argument:
+         *     title: A string of the name of song to look for
+         * Return: An arraylist of Songs that have the provided song name.
+         */
         ArrayList<Song> matches = new ArrayList<Song>();
 
         for (Song song : songs) {
@@ -111,6 +126,11 @@ public class MusicStore {
     }
     
     private ArrayList<Song> songByArtistHelper(String artist) {
+        /* This method searches the store for songs by a given artist and returns all matches.
+         * Argument:
+         *     artist: A string of the artist's name to look for
+         * Return: An arraylist of Songs that have the provided artist name.
+         */
         ArrayList<Song> matches = new ArrayList<Song>();
 
         for (Song song : songs) {
@@ -133,6 +153,11 @@ public class MusicStore {
     }
 
     private ArrayList<Album> albumByTitleHelper(String title) {
+        /* This method searches the store for an album's name and returns all matches.
+         * Argument:
+         *     title: A string of the name of album to look for.
+         * Return: An arraylist of Albums that have the provided album name.
+         */
         ArrayList<Album> matches = new ArrayList<Album>();
 
         for (Album album : albums) {
@@ -155,6 +180,11 @@ public class MusicStore {
     }
 
     private ArrayList<Album> albumByArtistHelper(String artist) {
+        /* This method searches the library for an artist's name and returns all matches.
+         * Argument:
+         *     artist: A string of the name of the artist to look for.
+         * Return: An arraylist of Albums that have the provided artist name.
+         */
         ArrayList<Album> matches = new ArrayList<Album>();
 
         for (Album album : albums) {
