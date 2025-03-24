@@ -304,6 +304,8 @@ public class View {
 				removeAlbumLibrary(input);
 				break;
 			case "m":
+				return;
+			default:
 				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				removeFromLibrary(input);
 		}
