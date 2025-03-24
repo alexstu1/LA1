@@ -9,12 +9,11 @@ import java.util.Scanner;
 public class User {
 	private String username;
 	private String encryptedPassword;
-	private int libraryModelIndex;
-	public User(String username, String password, int index) {
+	public User(String username, String password) {
 		this.username = username;
 		//change to actually salt+encrypt
 		this.encryptedPassword = password;
-		this.libraryModelIndex=index;
+
 	}
 	public static boolean isUserNameAvailable(String username) {
 		File file = new File("./users.txt");
@@ -36,7 +35,11 @@ public class User {
 		return true;
 	}
 	
-	public boolean isValidLogin(String password) {
+	public boolean isValidLogin() {
+		if (username==""||
+			username.contains(",")) {
+			return false;
+		}
 		File file = new File("./users.txt");
 		try {
 			Scanner reader = new Scanner(file);
@@ -55,9 +58,7 @@ public class User {
 		}
 		return false;
 	}
-	public int getIndex() {
-		return this.libraryModelIndex;
-	}
+
 	public void saveCredentials() {
 		String toSave = username+","+encryptedPassword;
 		File file = new File("./users.txt");
