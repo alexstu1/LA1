@@ -1,5 +1,6 @@
 package Model;
 
+import java.util.HashMap;
 import java.util.Scanner;
 /*This class stores and runs all necessary code to load the music store,
  *  then allow the user to interact with it through the command line with
@@ -7,12 +8,13 @@ import java.util.Scanner;
  */
 
 public class View {
+	private static HashMap<String,LibraryModel> allLibs = new HashMap<String,LibraryModel>();
 	private static LibraryModel lib = new LibraryModel();
 	public static void main(String[] args) {
 		/* This method prompts and reads user input, then calls the necessary functions.
 		 * It does not check or use any command line arguments when running the file.
 		 */
-		
+		allLibs.put("", lib);
 		Scanner input = new Scanner(System.in);
 		boolean continuing = true;
 		greetings();
@@ -36,6 +38,14 @@ public class View {
 					break;
 				case "r":
 					rateSongs(input);
+					break;
+				case "l":
+					if(allLibs.get("").equals(lib)) {
+						logout(input);
+					} else {
+						//user logged in
+						login(input);
+					}
 					break;
 				case "m":
 					break;
@@ -69,6 +79,7 @@ public class View {
 		System.out.println("PLAYLIST:       Enter [MP] and follow the instructions to create or modify a playlist.");
 		System.out.println("LIBRARY:        Enter [ML] to add or remove a song or entire album to your library.");
 		System.out.println("RATE/FAVORITE:  Enter [R] to rate or favorite a song.");
+		System.out.println("LOGIN:	    Enter [L] to login or logout of a library.");
 		System.out.println("RETURN TO MENU: Enter [M] at any point to return the main menu.");
 		System.out.println("EXIT APP:       Enter [E] to terminate the program.");
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
@@ -783,6 +794,75 @@ public class View {
 		System.out.println(lib.buildAddSongDupeString(songName));
 		String artist = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.play(songName, artist));
+	}
+		private static void logout(Scanner input) {
+		System.out.println("Enter [Y] to logout or [N] to return to the main menu.");
+		switch (input.nextLine().toLowerCase()) {
+			case "y":
+				lib = allLibs.get("");
+				System.out.println("Successfully logged out!");
+				break;
+			case "n":
+			case "m":
+				return;
+			default: 
+				logout(input);
+		}
+	}
+	private static void login(Scanner input) {
+		System.out.println("Enter [L] to login, [C] to create a new account, or [M] to return to the main menu.");
+		switch (input.nextLine().toLowerCase()) {
+			case "l":
+				loginAs(input);
+				break;
+			case "c":
+				newUser(input);
+				break;
+			case "m":
+				return;
+			default:
+				login(input);
+		}
+		
+	}
+	public static void loginAs(Scanner input) {
+		System.out.println("Enter your username:");
+		String username = input.nextLine();
+		System.out.println("Enter your password:");
+		String password = input.nextLine();
+		User login = new User(username, password);
+		if(login.isValidLogin()) {
+			if (allLibs.containsKey(username)) {
+				lib = allLibs.get(username);
+			} else {
+				lib = new LibraryModel();
+				allLibs.put(username, lib);
+			}
+			System.out.println("Successfully logged in as "+username+"!");
+			return;
+		} else {
+			System.out.println("Invalid username or password");
+			login(input);
+		}
+	}
+	private static void newUser(Scanner input) {
+		boolean validUsername = false;
+		String username="";
+		while (!validUsername) {
+			System.out.println("Enter your desired username:");
+			username = input.nextLine();
+			validUsername = User.isUserNameAvailable(username);
+			if (!validUsername) {
+				System.out.println("This username is either taken, or contained a comma, please try a different username.");
+			}
+		}
+		System.out.println("Enter your desired password:");
+		String password = input.nextLine();
+		User newUser = new User(username, password);
+		newUser.saveCredentials();
+		lib = new LibraryModel();
+		allLibs.put(username, lib);
+		System.out.println("Successfully created an account and logged in as "+username+"!");
 	}
 	
 }
