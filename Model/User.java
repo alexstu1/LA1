@@ -72,7 +72,7 @@ public class User {
 			}
 			FileWriter fileWriter = new FileWriter("./users.txt");
 			while (unedited.size()>0) {
-				fileWriter.append(unedited.removeFirst());
+				fileWriter.append(unedited.remove(0));
 			}
 			fileWriter.append(toSave);
 			fileWriter.close();
