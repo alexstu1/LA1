@@ -26,10 +26,12 @@ public class Playlist {
     }
 
     public void addSong(Song song) {
+        //adds song at end of playlist
         songs.add(song);
     }
 
     public void addSong(int index, Song song) {
+        //adds song at provided index, start of playlist is index 0.
         songs.add(index, song);
     }
 
@@ -46,6 +48,7 @@ public class Playlist {
     }
 
     public boolean contains(Song toCheck) {
+        //returns true if song in playlist and false if not
     	for (Song song : songs) {
     		if (song.equals(toCheck)) return true;
     	} return false;
@@ -67,6 +70,7 @@ public class Playlist {
     }
 
     public void removeSong(String title) {
+        //removes the song of a given title.
         Song removing = null;
         for (Song song : songs) {
             if (song.getTitle().equalsIgnoreCase(title)) {
@@ -77,6 +81,7 @@ public class Playlist {
 
         songs.remove(removing);
     }
+    
 
     public boolean removeSong(String title, String artist) {
         /* This method will check for a song by its artist and title
@@ -100,6 +105,7 @@ public class Playlist {
     }
 
     public void shuffle() {
+        //randomizes the order of songs in the playlist
     	Collections.shuffle(songs);
     }
 
