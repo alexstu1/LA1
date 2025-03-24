@@ -79,7 +79,7 @@ public class View {
 		System.out.println("PLAYLIST:       Enter [MP] and follow the instructions to create or modify a playlist.");
 		System.out.println("LIBRARY:        Enter [ML] to add or remove a song or entire album to your library.");
 		System.out.println("RATE/FAVORITE:  Enter [R] to rate or favorite a song.");
-		System.out.println("LOGIN:	    Enter [L] to login or logout of a library.");
+		System.out.println("LOGIN:			Enter [L] to login or logout of a library.");
 		System.out.println("RETURN TO MENU: Enter [M] at any point to return the main menu.");
 		System.out.println("EXIT APP:       Enter [E] to terminate the program.");
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
