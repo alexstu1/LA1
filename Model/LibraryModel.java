@@ -574,23 +574,6 @@ public class LibraryModel {
         return "To rate a song, it must be in your library.";
     }
 
-    //ALL METHODS BELOW THIS LINE SIMPLY FORWARD THE METHODS FROM MUSICSTORE FOR SEARCHING PURPOSES
-
-    public String getSongByTitleStore(String title) {
-        return store.getSongByTitle(title);
-    }
-
-    public String getSongByArtistStore(String artist) {
-        return store.getSongByArtist(artist);
-    }
-
-    public String getAlbumByTitleStore(String title) {
-        return store.getAlbumByTitle(title);
-    }
-
-    public String getAlbumByArtistStore(String artist) {
-        return store.getAlbumByArtist(artist);
-    }
     public String getSongsSortedByTitle() {
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
@@ -612,6 +595,7 @@ public class LibraryModel {
     	}
     	return toReturn;
     }
+
     public String getSongsSortedByArtist() {
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
@@ -632,7 +616,8 @@ public class LibraryModel {
     		toReturn=toReturn + toBuild.toString();
     	}
     	return toReturn;
-    }	
+    }
+
     public String getSongsSortedByRating() {
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
@@ -654,10 +639,12 @@ public class LibraryModel {
     		toReturn=toReturn + toBuild.toString();
     	}
     	return toReturn;
-    }	
+    }
+
     public void shuffle() {
     	Collections.shuffle(songs);
     }
+
     public String getContainedAlbums() {
     	if (songs.size()==0) return "Your library is empty. Please add songs to get started!\n";
     	String toReturn = "Songs from the following albums are present in the library:\n";
@@ -670,49 +657,24 @@ public class LibraryModel {
     	}
     	return toReturn;
     }
-    public String getSongByGenre(String genreSearch) {
-    	if (songs.size()==0) return "Your library is empty. Please add songs to get started!\n";
-    	String toReturn = "";
-    	for (Song song : songs) {
-    		if (song.getGenre().toLowerCase()==genreSearch.toLowerCase()) {
-    			toReturn = toReturn + song.toString();
-    		}
-    	}
-    	if (toReturn =="")
-    		return "There are no songs that match that genre in your library.\n";
-    	return "The following songs are in the genre "+genreSearch+":\n"+toReturn;
+
+    public String getSongByGenre(String genre) {
+        if (songs.isEmpty()) return "Your library is empty. Add something to get started!";
+
+        ArrayList<Song> matches = getSongByGenreHelper(genre);
+        return buildSongOutput(matches);
     }
-        /*This didnt implement recent songs as a playlist implementation changed
-     * public String getRecentSongs() {
-    	ArrayList<Song> sortedByTime = new ArrayList<Song>();
-    	for (Song song : songs) {
-    		if (sortedByTime.size()==0) sortedByTime.add(song);
-    		if (song.getWhenPlayed()==0) continue;
-    		boolean added = false;
-    		for (int i=0;i<sortedByTime.size();i++) {
-    			if (sortedByTime.get(i).getWhenPlayed()<=song.getWhenPlayed()) {
-    				sortedByTime.add(i, new Song(song));
-    				added = true;
-    				break;
-    			}
-    		}
-    		if(!added) {
-    			sortedByTime.add(song);
-    		}
-    	}
-    	if(sortedByTime.size()==0) {
-    		return "No songs have been played yet, play some songs to get recents";
-    	}
-    	int max = 10;
-    	if (sortedByTime.size()<10) {
-    		max=sortedByTime.size();
-    	}
-    	String toReturn = "The following songs have been recently played:\n";
-    	for (int i = 0;i<max;i++) {
-    		toReturn = toReturn + sortedByTime.get(i).toString();
-    	}
-    	return toReturn;
-    }*/
+
+    private ArrayList<Song> getSongByGenreHelper(String genre) {
+        ArrayList<Song> matches = new ArrayList<Song>();
+
+        for (Song song : songs) {
+            if (song.getGenre().toLowerCase().equals(genre)) matches.add(song);
+        }
+
+        return matches;
+    }
+
     public void updateRecents(Song played) {
     	Playlist recents = this.playlists.get(0);
     	if (!recents.contains(new Song(played))) {
@@ -812,5 +774,23 @@ public class LibraryModel {
         }
 
         return "It doesn't look like that song is in your library.";
+    }
+
+    //ALL METHODS BELOW THIS LINE SIMPLY FORWARD THE METHODS FROM MUSICSTORE FOR SEARCHING PURPOSES
+
+    public String getSongByTitleStore(String title) {
+        return store.getSongByTitle(title);
+    }
+
+    public String getSongByArtistStore(String artist) {
+        return store.getSongByArtist(artist);
+    }
+
+    public String getAlbumByTitleStore(String title) {
+        return store.getAlbumByTitle(title);
+    }
+
+    public String getAlbumByArtistStore(String artist) {
+        return store.getAlbumByArtist(artist);
     }
 }
