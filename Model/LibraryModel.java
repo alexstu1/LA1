@@ -833,7 +833,45 @@ public class LibraryModel {
         Playlist playlist = getPlaylistHelper(playlistName);
         if (playlist != null) playlist.shuffle();
     }
-
+        public String getPresentAlbums() {
+    	ArrayList<String> contained = new ArrayList<String>();
+    	if (songs.size()==0)
+    		return "There are no songs in your user library.";
+    	for (Song song : songs) {
+    		String songsAlbum = song.getAlbum()+" - "+song.getArtist();
+    		if (!contained.contains(songsAlbum)) 
+    			contained.add(songsAlbum);
+    	}
+    	String toReturn = "The following albums Have at least one song in your library;\n";
+    	while (contained.size()!=0) {
+    		toReturn = toReturn + contained.removeFirst()+"\n";
+    	}
+    	return toReturn;
+    }
+    public String getPresentAlbumsVerbose() {
+    	HashMap<String,String> contained = new HashMap<String,String>();
+    	if (songs.size()==0)
+    		return "There are no songs in your user library.";
+    	for (Song song : songs) {
+    		String key = song.getAlbum()+song.getArtist();
+    		if(contained.containsKey(key)) {
+    			contained.put(key, 
+    					contained.get(key)+song.getTitle()+"\n");
+    		} else {
+    			String intro = 	"Album: "+song.getAlbum()+"\n"+
+    							"Artist: "+song.getArtist()+"\n"+
+    							"Genre: "+song.getGenre()+"\n"+
+    							"Track List:\n"+
+    							song.getTitle()+"\n";
+    			contained.put(key, intro);
+    		}
+    	}
+    	String toReturn = "";
+    	for (String toAdd : contained.values()) {
+    		toReturn = toReturn+toAdd;
+    	}
+    	return toReturn;
+    }
     //ALL METHODS BELOW THIS LINE SIMPLY FORWARD THE METHODS FROM MUSICSTORE FOR SEARCHING PURPOSES
 
     public String getSongByTitleStore(String title) {
