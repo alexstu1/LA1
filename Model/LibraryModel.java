@@ -21,6 +21,11 @@ public class LibraryModel {
     }
 
     private String buildSongOutput(ArrayList<Song> matches) {
+        /* This method is used to create a printable search string from a list of found songs.
+         * Argument:
+         *     matches: An arraylist of Songs that are to be printed out.
+         * Returns: A string meant to be printed to the user of the list of songs.
+         */
         StringBuilder output = new StringBuilder("These are the songs that match your search:\n");
         for (Song song : matches) {
             output.append(song.toString());
@@ -30,6 +35,11 @@ public class LibraryModel {
     }
 
     private String buildAlbumOutput(ArrayList<Album> matches) {
+         /* This method is used to create a printable search string from a list of found albums.
+         * Argument:
+         *     matches: An arraylist of Albums that are to be printed out.
+         * Returns: A string meant to be printed to the user of the list of albums.
+         */
         StringBuilder output = new StringBuilder("These are the albums that match your search:\n");
         for (Album album : matches) {
             output.append(album.toString());
@@ -51,6 +61,11 @@ public class LibraryModel {
     }
     
     private ArrayList<Song> songByTitleHelper(String title) {
+        /* This method searches the library for a songs name and returns all matches.
+         * Argument:
+         *     title: A string of the name of song to look for
+         * Return: An arraylist of Songs that have the provided song name.
+         */
         ArrayList<Song> matches = new ArrayList<Song>();
 
         for (Song song : songs) {
@@ -73,6 +88,11 @@ public class LibraryModel {
     }
     
     private ArrayList<Song> songByArtistHelper(String artist) {
+        /* This method searches the library for songs by a given artist and returns all matches.
+         * Argument:
+         *     artist: A string of the artist's name to look for
+         * Return: An arraylist of Songs that have the provided artist name.
+         */
         ArrayList<Song> matches = new ArrayList<Song>();
 
         for (Song song : songs) {
@@ -95,6 +115,11 @@ public class LibraryModel {
     }
 
     private ArrayList<Album> albumByTitleHelper(String title) {
+        /* This method searches the library for an album's name and returns all matches.
+         * Argument:
+         *     title: A string of the name of album to look for.
+         * Return: An arraylist of Albums that have the provided album name.
+         */
         ArrayList<Album> matches = new ArrayList<Album>();
 
         for (Album album : albums) {
@@ -117,6 +142,11 @@ public class LibraryModel {
     }
 
     private ArrayList<Album> albumByArtistHelper(String artist) {
+        /* This method searches the library for an artist's name and returns all matches.
+         * Argument:
+         *     artist: A string of the name of the artist to look for.
+         * Return: An arraylist of Albums that have the provided artist name.
+         */
         ArrayList<Album> matches = new ArrayList<Album>();
 
         for (Album album : albums) {
@@ -162,6 +192,13 @@ public class LibraryModel {
     }
 
     public String addSong(String name, MusicStore store) {
+        /* This method adds a song to the user's library.
+         * Arguments:
+         *     name: String of the name of the song to add.
+         *     store: A MusicStore object to look for the song in.
+         * Return: A String informing the user of successful addition, multiple songs by that name, 
+         *        if the song is already in the library, or if the song is not in the music store.
+         */
         ArrayList<Song> matches = store.getSongForLibrary(name);
         if (matches.isEmpty()) return "Sorry! It looks like that song isn't in our library.";
 
@@ -177,6 +214,12 @@ public class LibraryModel {
     }
 
     private void makeAlbumFromSong(Song song) {
+        /* This method either makes a partial album from a song, or adds a song to a partial album
+         * Userd to add partial albums to the user's library from only adding a song from that music store.
+         *Argument:
+         *    song: A song object to be added to the users library.
+         *Returns: null
+         */
         Album adding = new Album(song);
         int index = albums.indexOf(adding);
         if (index == -1) {
@@ -200,6 +243,14 @@ public class LibraryModel {
     }
 
     public String addSong(String name, String artist, MusicStore store) {
+        /* This method adds a song by a specific artist to the user's library.
+         * Arguments:
+         *     name: String of the name of the song to add.
+         *     artist: String of the artis's name of the song to add.
+         *     store: A MusicStore object to look for the song in.
+         * Return: A String informing the user of successful addition,
+         *        if the song is already in the library, or if the song is not in the music store.
+         */
         ArrayList<Song> matches = store.getSongForLibrary(name);
         for (Song song : matches) {
             if (song.getArtist().equalsIgnoreCase(artist)) {
@@ -215,6 +266,11 @@ public class LibraryModel {
     }
 
     private void addSong(Song song) {
+        /* This method adds a song to the users library, but not the album the song is from.
+         * Argument:
+         *    song: A Song object to add to the library.
+         * Returns: null
+         */
         if (!songs.contains(song)) {
             songs.add(song);
             autoMakeGenrePlaylists();
@@ -222,6 +278,13 @@ public class LibraryModel {
     }
 
     public String addAlbum(String name, MusicStore store) {
+        /* This method adds an album to the user's library.
+         * Arguments:
+         *     name: String of the name of the album to add.
+         *     store: A MusicStore object to look for the album in.
+         * Return: A String informing the user of successful addition, multiple albums of the provided name,
+         *        if the album is already in the library, or if the album is not in the music store.
+         */
         ArrayList<Album> matches = store.getAlbumForLibrary(name);
         if (matches.isEmpty()) return "Sorry! It looks like that album isn't in our library.";
 
@@ -252,6 +315,15 @@ public class LibraryModel {
     }
 
     public String addAlbum(String name, String artist, MusicStore store) {
+        
+        /* This method adds an album by an artist to the user's library.
+         * Arguments:
+         *     name: String of the name of the album to add.
+         *     artist: String of the artis's name of the album.
+         *     store: A MusicStore object to look for the album in.
+         * Return: A String informing the user of successful addition, multiple albums of the provided name,
+         *        if the album is already in the library, or if the album is not in the music store.
+         */
         ArrayList<Album> matches = store.getAlbumForLibrary(name);
         for (Album album : matches) {
             if (album.getArtist().equalsIgnoreCase(artist)) {
@@ -305,6 +377,10 @@ public class LibraryModel {
     }
 
     private HashSet<String> getArtistsHelper() {
+        /* This method gets all artist names of the songs in the user library
+         * Argument: none
+         * Returns: A HashSet of Strings of the artist's names who have songs in the user's library.
+         */
         HashSet<String> artists = new HashSet<String>();
         for (Song song : songs) {
             artists.add(song.getArtist());
@@ -347,6 +423,10 @@ public class LibraryModel {
     }
 
     private ArrayList<Song> getFavoritesHelper() {
+        /* This method gets all songs in the user library that have been favorited or rated five stars.
+         * Argument: none
+         * Returns: An ArrayList of Songs in the user's library that have been favorited or rated five stars.
+         */
         ArrayList<Song> favorites = new ArrayList<Song>();
 
         for (Song song : songs) {
@@ -587,6 +667,11 @@ public class LibraryModel {
     }
 
     public String getSongsSortedByTitle() {
+        /* This method sorts all songs in the user's library and returns
+         * a printable string representation of all songs sorted alphabetically by title.
+         * Argument: none
+         * Returns: A String representation of all songs in the user library sorted alphabetically by title.
+         */
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
     	for (Song toSort : songs) {
@@ -609,6 +694,11 @@ public class LibraryModel {
     }
 
     public String getSongsSortedByArtist() {
+        /* This method sorts all songs in the user's library and returns
+         * a printable string representation of all songs sorted alphabetically by artist name.
+         * Argument: none
+         * Returns: A String representation of all songs in the user library sorted alphabetically by artist name.
+         */
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
     	for (Song toSort : songs) {
@@ -631,6 +721,11 @@ public class LibraryModel {
     }
 
     public String getSongsSortedByRating() {
+        /* This method sorts all songs in the user's library and returns
+         * a printable string representation of all songs sorted by song rating.
+         * Argument: none
+         * Returns: A String representation of all songs in the user library sorted by song rating.
+         */
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
     	for (Song toSort : songs) {
@@ -654,10 +749,17 @@ public class LibraryModel {
     }
 
     public void shuffle() {
+        //Randomizes the order of all songs saved in the user library
     	Collections.shuffle(songs);
     }
 
     public String getSongByGenre(String genre) {
+        /* This method returns a string representation of all songs in the user library that have the given genre.
+         * Arguments:
+         *    genre: A String of the genre to search for.
+         * Returns: A printable String informing the user if the library is empty, could not find any, or all songs 
+         *     of the given genre.
+         */
         if (songs.isEmpty()) return "Your library is empty. Add something to get started!";
 
         ArrayList<Song> matches = getSongByGenreHelper(genre);
@@ -665,6 +767,12 @@ public class LibraryModel {
     }
 
     private ArrayList<Song> getSongByGenreHelper(String genre) {
+        /* This helper method builds an arraylist of songs of all songs in the user library
+         *     that matches the given genre
+         * Argument:
+         *    genre: A String of the genre to search for.
+         * Returns: An ArrayList of Songs of the songs that have the given genre from the user library.
+         */
         ArrayList<Song> matches = new ArrayList<Song>();
 
         for (Song song : songs) {
@@ -675,6 +783,12 @@ public class LibraryModel {
     }
 
     private void updateRecents(Song played) {
+        /* This method updates a playlist that tracks the 10 most recently played songs, without duplication.
+         *     The provided song is the song the user listened to.
+         * Argument:
+         *    played: A Song object that the user listened to.
+         * Returns: null
+         */
     	Playlist recents = this.playlists.get(0);
     	if (recents.contains(played)) {
     		recents.removeSong(played);
@@ -684,6 +798,11 @@ public class LibraryModel {
     }
 
     private void updateMostPlayed(Song song) {
+        /* This method takes a song and updates it in the playlist that tracks the 10 most played song, if it belongs.
+         * Argument:
+         *    song: A Song that is to be updated in the most played playlist
+         * Returns: null
+         */
         Playlist mostPlayed = playlists.get(1);
         mostPlayed.removeSong(song);
         if (mostPlayed.getSize() == 0) {
@@ -700,14 +819,21 @@ public class LibraryModel {
     }
 
     private void updateHighRating(Song song) {
+        //This method adds the provided song to the High Rating playlist if not already added.
         if (!playlists.get(2).hasSong(song)) playlists.get(2).addSong(song);
     }
 
     private void updateFavorites(Song song) {
+        //This method adds the provided song to the favorites playlit if not already added.
         if (!playlists.get(3).hasSong(song)) playlists.get(3).addSong(song);
     }
 
     private void autoMakeGenrePlaylists() {
+        /* This method looks through the user's library and makes a playlist for any genre that has atleast 
+         * 10 songs in the user library with that genre and stores the playlists in the user library.
+         * Argument: none
+         * Returns: null
+         */
     	HashMap<String,ArrayList<Song>> genreCounts = new HashMap<String,ArrayList<Song>>();
     	for (Song song : songs) {
     		String genre = song.getGenre();
@@ -739,6 +865,11 @@ public class LibraryModel {
     }
 
     public String play(String song) {
+        /* This method is used for the user to say they played a song and perform the required auto playlist features.
+         * Argument:
+         *    song: A String of the song's name.
+         * Returns: A printable String informing the user of the song not in the user library, multiple songs by that name, or successful play.
+         */
         ArrayList<Song> matches = songByTitleHelper(song);
 
         if (matches.isEmpty()) return "It doesn't look like that song is in your library.";
@@ -749,6 +880,12 @@ public class LibraryModel {
     }
 
     public String play(String songName, String artist) {
+        /* This method is used for the user to say they played a song by a given artist and perform the required auto playlist features.
+         * Argument:
+         *    song: A String of the song's name.
+         *    artist: A String of the song's artist.
+         * Returns: A printable String informing the user of the song not in the user library, or successful play.
+         */
         ArrayList<Song> matches = songByTitleHelper(songName);
 
         for (Song song : matches) {
@@ -763,6 +900,11 @@ public class LibraryModel {
     }
 
     public String removeSongLibrary(String songName) {
+        /* This method delets a song form the users library and any of its playlists.
+         * Argument:
+         *     songName: A String of the song to deletes name.
+         * Returns: A printable string informing the user of; no song by name, multiple songs with that name, or successful deletion.
+         */
         ArrayList<Song> matches = songByTitleHelper(songName);
 
         if (matches.isEmpty()) return "It doesn't look like that song is in your library.";
@@ -772,6 +914,12 @@ public class LibraryModel {
     }
 
     public String removeSongLibrary(String songName, String artist) {
+         /* This method delets a song by a given artist form the users library and any of its playlists.
+         * Argument:
+         *     songName: A String of the song to deletes name.
+         *     artist: A String of the song's artist.
+         * Returns: A printable string informing the user of; no song by name and artist, or successful deletion.
+         */
         ArrayList<Song> matches = songByTitleHelper(songName);
 
         for (int i = matches.size() - 1; i >= 0; i--) {
@@ -786,6 +934,11 @@ public class LibraryModel {
     }
 
     public String removeAlbumLibrary(String albumName) {
+         /* This method delets an album and all of its songs form the users library and any of its playlists.
+         * Argument:
+         *     albumName: A String of the album to deletes name.
+         * Returns: A printable string informing the user of; no album by name, multiple albums with that name, or successful deletion.
+         */
         ArrayList<Album> matches = albumByTitleHelper(albumName);
         if (matches.isEmpty()) return "It doesn't look like that album is in your library.";
         if (matches.size() > 1) return "There are multiple albums in your library with that title. Please specify the artist to ensure the right one is removed.";
@@ -800,6 +953,12 @@ public class LibraryModel {
     }
 
     private void deepDelete(Song song) {
+        /* This method deletes a song from the users library,
+         *   and if it was the last song from an album it removes the album as well.
+         * Argument:
+         *    song: A Song object that is to be deleted.
+         * Returns: null
+         */
     	songs.remove(song);
     	for (Playlist playlist : playlists) {
     		playlist.removeSong(song);
@@ -811,11 +970,22 @@ public class LibraryModel {
     }
 
     public void shufflePlaylist(String playlistName) {
+        /* This method ranomizes the order of the songs in the given playlist.
+         * Argument:
+         *    playlistName: A String of the playlists name to shuffle
+         * Returns: null
+         */
         Playlist playlist = getPlaylistHelper(playlistName);
         if (playlist != null) playlist.shuffle();
     }
 
     private String buildAlbumInformationString(Album album) {
+        /* This method builds and returns information of the given album,
+         *   and if all songs from that album are in the library or not.
+         * Argument:
+         *    album: An Album object to get the information from
+         * Returns: A printable String of the album's information and presence of songs in the users library.
+         */
         StringBuilder output = new StringBuilder();
         output.append("Album: ").append(album.getTitle()).append(" (").append(album.getYear()).append(") - In Library\n");
         output.append("Artist: ").append(album.getArtist()).append("\n");
@@ -832,6 +1002,13 @@ public class LibraryModel {
     }
 
     private Album getAlbumFromSong(String songName, String artist, MusicStore store) {
+        /* This method gets the full album that the provided songName by artist from the provided musicStore.
+         * Arguments:
+         *    songName: A String of the song's title.
+         *    artist: A String of the song's artist.
+         *    store: A MusicStore object to search for the album.
+         * Returns: An Album object containing a song of provided title and artist, or null if no such album exists.
+         */
         for (Song song : songs) {
             if (song.getTitle().equalsIgnoreCase(songName) && song.getArtist().equalsIgnoreCase(artist)) {
                 return store.getAlbumForLibrary(song.getAlbum()).get(0);
@@ -842,6 +1019,15 @@ public class LibraryModel {
     }
 
     public String getAlbumInformation(String songName, String artist, MusicStore store) {
+        /* This method takes a songName and artist name, finds the album its from,
+         *     and returns a printable string representing that album that informs the user
+         *     what songs from that album are in the library.
+         * Arguments:
+         *    songName: A String of the song's title.
+         *    artist: A String of the song's artist.
+         *    store: A MusicStore object to search for the album.
+         * Returns: A printable String of the album's information and presence of songs in the users library.
+         */
         Album album = getAlbumFromSong(songName, artist, store);
         return buildAlbumInformationString(album);
     }
