@@ -4,8 +4,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Scanner;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 
 public class User {
 	private String username;
@@ -13,8 +18,30 @@ public class User {
 	public User(String username, String password) {
 		this.username = username;
 		//change to actually salt+encrypt
-		this.encryptedPassword = password;
+		this.encryptedPassword = encryptPassword(password);
+		
 
+	
+	
+	}
+	public String encryptPassword(String password) {
+		
+		try {
+			SecretKeyFactory f;
+			byte[] salt = username.getBytes();
+			PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), salt, 65536, 128);
+			f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+			byte[] hash = f.generateSecret(spec).getEncoded();
+			Base64.Encoder encoder = Base64.getEncoder();
+			return encoder.encodeToString(hash);
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	public static boolean isUserNameAvailable(String username) {
 		File usersPath = new File("Users");
