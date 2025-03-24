@@ -831,6 +831,14 @@ public class LibraryModel {
 
         return "It doesn't look like that song is in your library.";
     }
+    public void shufflePlaylist(String playlistName) {
+    	for(Playlist playlist : playlists) {
+    		if (playlist.getName()==playlistName) {
+    			playlist.shuffle();
+    			return;
+    		}
+    	}
+    }
 
     //ALL METHODS BELOW THIS LINE SIMPLY FORWARD THE METHODS FROM MUSICSTORE FOR SEARCHING PURPOSES
 
