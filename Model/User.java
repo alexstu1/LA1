@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class User {
@@ -60,13 +61,19 @@ public class User {
 	}
 
 	public void saveCredentials() {
+
 		String toSave = username+","+encryptedPassword;
 		File file = new File("./users.txt");
 		try {
 			Scanner reader = new Scanner(file);
-			String unedited = reader.next();
+			ArrayList<String> unedited = new ArrayList<String>();
+			while (reader.hasNextLine()) {
+				unedited.add(reader.nextLine());
+			}
 			FileWriter fileWriter = new FileWriter("./users.txt");
-			fileWriter.append(unedited);
+			while (unedited.size()>0) {
+				fileWriter.append(unedited.removeFirst());
+			}
 			fileWriter.append(toSave);
 			fileWriter.close();
 			reader.close();
