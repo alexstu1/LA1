@@ -296,6 +296,10 @@ public class View {
 	}
 
 	private static void removeFromLibrary(Scanner input) {
+		/* This method is used when the user selects they want to remove a song from their library.
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		System.out.println("Enter [S] to remove a song from your library, [A] to remove an album, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "s":
@@ -738,6 +742,10 @@ public class View {
 	}
 
 	private static void removeSongLibrary(Scanner input) {
+		/* This method is used to prompt the user for a song name and remove that song from the library.
+   		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		System.out.println("Enter the song's name you'd like to remove from your library.");
 		String songName = input.nextLine().trim().toLowerCase();
 		String output = lib.removeSongLibrary(songName);
@@ -748,6 +756,12 @@ public class View {
 	}
 
 	private static void removeSongLibrary(Scanner input, String songName) {
+		/* This method is used to prompt the user for an artist name and remove a given song by artist from the library.
+   		 * Arguments:
+      		 *	input: A scanner object that is monitoring the command line where the user enters their selections.
+	 	 *	songName: A String of the song's name to be removed.
+		 * Returns null. 
+		 */
 		System.out.println(lib.buildAddSongDupeString(songName, store));
 		String artist = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.removeSongLibrary(songName, artist));
@@ -779,12 +793,20 @@ public class View {
 	}
 
 	private static void removeAlbumLibrary(Scanner input) {
+		/* This method is used to remove an album to the user library of promped name.
+		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		System.out.println("Enter the album's name you'd like to remove from your library.");
 		String albumName = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.removeAlbumLibrary(albumName));
 	}
 
 	private static void play(Scanner input) {
+		/* This method prompts the user for a song to play and artist if required and calls required funcitons to play the song.
+  	 	 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		System.out.println("Enter the name of the song you'd like to play.");
 		String songName = input.nextLine().trim().toLowerCase();
 		String output = lib.play(songName);
@@ -795,6 +817,12 @@ public class View {
 	}
 
 	private static void play(Scanner input, String songName) {
+		/* This method prompts the user for an artist and calls required funcitons to play the song by artist.
+  	 	 * Arguments: 
+      		 *	input: A scanner object that is monitoring the command line where the user enters their selections.
+	 	 *	songName: A String of the song to play
+		 * Returns null. 
+		 */
 		System.out.println(lib.buildAddSongDupeString(songName, store));
 		String artist = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.play(songName, artist));
@@ -803,6 +831,11 @@ public class View {
 	/* Below this line is for user account handling */
 	
 	private static void logout(Scanner input) {
+		/* This method is used to log the user out and loads the default user library for use.
+  	 	 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
+		
 		System.out.println("Enter [Y] to logout or [N] to return to the main menu.");
 		switch (input.nextLine().toLowerCase()) {
 			case "y":
@@ -818,6 +851,10 @@ public class View {
 	}
 
 	private static void login(Scanner input) {
+		/* This method is used to create a new user account or to log the user in and loads their user library for use.
+  	 	 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		System.out.println("Enter [L] to login, [C] to create a new account, or [M] to return to the main menu.");
 		switch (input.nextLine().toLowerCase()) {
 			case "l":
@@ -835,6 +872,11 @@ public class View {
 	}
 
 	public static void loginAs(Scanner input) {
+		/* This method is used to log the user in and loads their user library for use.
+  		 * If the user types in an invalid username or password it will allow them to retry or go back to main menu.
+  	 	 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		System.out.println("Enter your username:");
 		String username = input.nextLine();
 		System.out.println("Enter your password:");
@@ -856,6 +898,10 @@ public class View {
 	}
 
 	private static void newUser(Scanner input) {
+		/* This method is used to create and login to a new user account and save it for the future.
+  	 	 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
+		 * Returns null. 
+		 */
 		boolean validUsername = false;
 		String username="";
 		while (!validUsername) {
