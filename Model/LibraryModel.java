@@ -727,7 +727,7 @@ public class LibraryModel {
     	ArrayList<Song> toUpdate = new ArrayList<Song>();
     	toUpdate.add(new Song(songs.get(0)));
     	for (Song song: songs) {
-    		if (song.getTimesPlayed()toUpdate.get(toUpdate.size()-1).getTimesPlayed()) {
+    		if (song.getTimesPlayed()>toUpdate.get(toUpdate.size()-1).getTimesPlayed()) {
     			for (int idx = 0;idx<toUpdate.size();idx++) {
     				if(toUpdate.get(idx).getTimesPlayed()<song.getTimesPlayed()) {
     					toUpdate.add(idx, new Song(song));
