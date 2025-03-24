@@ -47,8 +47,9 @@ public class User {
 		try {
 			Scanner reader = new Scanner(file);
 			while (reader.hasNext()) {
-				String[] saved = reader.nextLine().split(",", 2);
-				if(username==saved[0]&&encryptedPassword==saved[1]) {
+				String newLine = reader.nextLine();
+				String[] saved = newLine.split(",", 2);
+				if(username.equals(saved[0])&&encryptedPassword.equals(saved[1])) {
 					reader.close();
 					return true;
 				} 
