@@ -753,7 +753,63 @@ public class LibraryModel {
     		
     	}
     }
-
+    public String removeSong(String songName) {
+    	Song found=null;
+    	for (Song song : songs) {
+    		if(song.getTitle()==songName) {
+    			if(found!=null)
+    				return "There are multiple songs with that title in our library. Please specify the artist to ensure we remove the correct one!";
+    			else found=song;
+    		}
+    	}
+    	if (found==null)
+    		return "There is no song named "+songName+" in your library.";
+    	deepDeleteSong(found);
+    	return "The song " + songName+ " has been removed from your library.";
+    }
+    public String removeSong(String songName, String artist) {
+    	for (Song song : songs) {
+    		if(song.getTitle()==songName&&song.getArtist()==artist) {
+    			deepDeleteSong(song);
+    			return "The song " + songName+ " by "+artist+"has been removed from your library.";
+    		}
+    	}
+    	return "There is no song named "+songName+ " by "+artist+"in your library.";
+    }
+    public String removeAlbum(String albumName) {
+    	Album found = null;
+    	for (Album album : albums) {
+    		if(album.getTitle()==albumName) {
+    			if(found!=null)
+    				return "There are multiple albums with that title in our library. Please specify the artist to ensure we add the correct one!";
+    			else found=album;
+    		}
+    	}
+    	if (found==null)
+    		return "The is no album named "+albumName+" in your library.";
+    	albums.remove(found);
+    	for (Song song : found.getTracks()) {
+    		deepDeleteSong(song);
+    	}
+    	return "All songs from the album "+albumName+" have been removed from your library";
+    }
+    public String removeAlbum(String albumName, String artist) {
+    	for (Album album : albums) {
+    		if (album.getTitle()==albumName&&album.getArtist()==artist) {
+    			for (Song song : album.getTracks()) {
+    				deepDeleteSong(song);
+    			}
+    			return "All songs from the album "+albumName+" by "+artist+" have been removed from your library";
+    		}
+    	}
+    	return "There is no album named "+albumName+ " by "+artist+"in your library.";
+    }
+    private void deepDeleteSong(Song song) {
+    	songs.remove(song);
+    	for (Playlist playlist :  playlists) {
+    		playlist.removeSong(song);
+    	}
+    }
     public String play(String song) {
         ArrayList<Song> matches = songByTitleHelper(song);
 
