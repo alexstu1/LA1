@@ -825,7 +825,7 @@ public class LibraryModel {
     private void deepDeleteSong(Song song) {
     	songs.remove(song);
     	for (Playlist playlist :  playlists) {
-    		playlist.removeSong(song);
+    		playlist.removeSong(song.getTitle(),song.getArtist());
     	}
     }
 
