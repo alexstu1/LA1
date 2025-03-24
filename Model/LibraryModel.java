@@ -3,13 +3,11 @@ package Model;
 import java.util.*;
 
 public class LibraryModel {
-    private MusicStore store;
     private ArrayList<Song> songs;
     private ArrayList<Album> albums;
     private ArrayList<Playlist> playlists;
 
     public LibraryModel() {
-        this.store = new MusicStore();
         this.songs = new ArrayList<Song>();
         this.albums = new ArrayList<Album>();
         this.playlists = new ArrayList<Playlist>();
@@ -90,10 +88,10 @@ public class LibraryModel {
          * Argument: String of an album title.
          * Returns: A printable string containing the information of any albums that match the title.
          */
-        ArrayList<Album> matches = albumByTitleHelper(title);
+        ArrayList<Album> albumMatches = albumByTitleHelper(title);
+        if (!albumMatches.isEmpty()) return buildAlbumOutput(albumMatches);
 
-        if (matches.isEmpty()) return "It doesn't look like that album is in your library.";
-        return buildAlbumOutput(matches);
+        return "It looks like that album isn't in your library.";
     }
 
     private ArrayList<Album> albumByTitleHelper(String title) {
@@ -163,7 +161,7 @@ public class LibraryModel {
         return null;
     }
 
-    public String addSong(String name) {
+    public String addSong(String name, MusicStore store) {
         ArrayList<Song> matches = store.getSongForLibrary(name);
         if (matches.isEmpty()) return "Sorry! It looks like that song isn't in our library.";
 
@@ -173,11 +171,24 @@ public class LibraryModel {
         if (songs.contains(adding)) return "That song is already in your library.";
 
         songs.add(adding);
+        makeAlbumFromSong(adding);
         autoMakeGenrePlaylists();
         return "Song added successfully!";
     }
 
-    public String buildAddSongDupeString(String title) {
+    private void makeAlbumFromSong(Song song) {
+        Album adding = new Album(song);
+        int index = albums.indexOf(adding);
+        if (index == -1) {
+            albums.add(adding);
+            adding.addSong(song);
+            return;
+        }
+
+        albums.get(index).addSong(song);
+    }
+
+    public String buildAddSongDupeString(String title, MusicStore store) {
         // This method will build a string for the user to help them pick what artist
         // to specify when they try to add a song title that matches multiple songs
         ArrayList<Song> matches = store.getSongForLibrary(title);
@@ -188,12 +199,13 @@ public class LibraryModel {
         return output.toString().trim();
     }
 
-    public String addSong(String name, String artist) {
+    public String addSong(String name, String artist, MusicStore store) {
         ArrayList<Song> matches = store.getSongForLibrary(name);
         for (Song song : matches) {
             if (song.getArtist().equalsIgnoreCase(artist)) {
                 if (songs.contains(song)) return "That song is already in your library.";
                 songs.add(song);
+                makeAlbumFromSong(song);
                 autoMakeGenrePlaylists();
                 return "Song added successfully!";
             }
@@ -209,24 +221,26 @@ public class LibraryModel {
         }
     }
 
-    public String addAlbum(String name) {
+    public String addAlbum(String name, MusicStore store) {
         ArrayList<Album> matches = store.getAlbumForLibrary(name);
         if (matches.isEmpty()) return "Sorry! It looks like that album isn't in our library.";
 
         if (matches.size() > 1) return "There are multiple albums with that title in our library. Please specify the artist to ensure we add the correct one!";
 
         Album adding = matches.get(0);
-        if (albums.contains(adding)) return "That album is already in your library.";
+        int index = albums.indexOf(adding);
+        if (index != -1 && albums.get(index).getTracks().size() == adding.getTracks().size()) return "That album is already in your library.";
 
+        albums.remove(adding);
         albums.add(adding);
         for (Song song : adding.getTracks()) {
             addSong(song);
         }
         
-        return "Album added successfully!";
+        return "Full album added successfully!";
     }
 
-    public String buildAddAlbumDupeString(String title) {
+    public String buildAddAlbumDupeString(String title, MusicStore store) {
         // This method will build a string for the user to help them pick what artist
         // to specify when they try to add an album title that matches multiple albums
         ArrayList<Album> matches = store.getAlbumForLibrary(title);
@@ -237,17 +251,19 @@ public class LibraryModel {
         return output.toString().trim();
     }
 
-    public String addAlbum(String name, String artist) {
+    public String addAlbum(String name, String artist, MusicStore store) {
         ArrayList<Album> matches = store.getAlbumForLibrary(name);
         for (Album album : matches) {
             if (album.getArtist().equalsIgnoreCase(artist)) {
-                if (albums.contains(album)) return "That album is already in your library.";
+                int index = albums.indexOf(album);
+                if (index != 1 && albums.get(index).getTracks().size() == album.getTracks().size()) return "That album is already in your library.";
+                albums.remove(album);
                 albums.add(album);
                 for (Song song : album.getTracks()) {
                     addSong(song);
                 }
                 
-                return "Album added successfully!";
+                return "Full album added successfully!";
             }
         }
 
@@ -295,22 +311,6 @@ public class LibraryModel {
         }
 
         return artists;
-    }
-
-    public String getAlbums() {
-    	/*This method gets all albums in the user's library.
-    	 * 
-    	 * Returns: A printable string with all album names in the user's library on their own line.
-    	 */
-        if (albums.isEmpty()) return "Your library has no albums currently. Add some to get started!";
-
-        StringBuilder output = new StringBuilder();
-        output.append("These are all of the albums in your library:\n");
-        for (Album album : albums) {
-            output.append(album.getTitle() + " - " + album.getArtist() + "\n");
-        }
-
-        return output.toString().trim();
     }
 
     public String getPlaylists() {
@@ -668,7 +668,7 @@ public class LibraryModel {
         ArrayList<Song> matches = new ArrayList<Song>();
 
         for (Song song : songs) {
-            if (song.getGenre().toLowerCase().equals(genre)) matches.add(song);
+            if (song.getGenre().equalsIgnoreCase(genre)) matches.add(song);
         }
 
         return matches;
@@ -681,10 +681,6 @@ public class LibraryModel {
     	}
 
         recents.addSong(0, played);
-
-    	if (recents.getSize()==11) {
-    		recents.removeSong(10);
-    	}
     }
 
     private void updateMostPlayed(Song song) {
@@ -701,7 +697,6 @@ public class LibraryModel {
         }
 
         mostPlayed.addSong(i + 1, song);
-        if (mostPlayed.getSize() > 10) mostPlayed.removeSong(10);
     }
 
     private void updateHighRating(Song song) {
@@ -747,7 +742,7 @@ public class LibraryModel {
         ArrayList<Song> matches = songByTitleHelper(song);
 
         if (matches.isEmpty()) return "It doesn't look like that song is in your library.";
-        if (matches.size() > 1) return "There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is rated.";
+        if (matches.size() > 1) return "There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is played.";
         updateRecents(matches.get(0));
         updateMostPlayed(matches.get(0));
         return matches.get(0).play();
@@ -757,7 +752,7 @@ public class LibraryModel {
         ArrayList<Song> matches = songByTitleHelper(songName);
 
         for (Song song : matches) {
-            if (song.getArtist().toLowerCase().equals(artist)) {
+            if (song.getArtist().equalsIgnoreCase(artist)) {
                 updateRecents(song);
                 updateMostPlayed(song);
                 return song.play();
@@ -767,126 +762,128 @@ public class LibraryModel {
         return "It doesn't look like that song is in your library.";
     }
 
-    public String removeSong(String songName) {
-    	Song found=null;
-    	for (Song song : songs) {
-    		if(song.getTitle()==songName) {
-    			if(found!=null)
-    				return "There are multiple songs with that title in our library. Please specify the artist to ensure we remove the correct one!";
-    			else found=song;
-    		}
-    	}
-    	if (found==null)
-    		return "There is no song named "+songName+" in your library.";
-    	deepDeleteSong(found);
-    	return "The song " + songName+ " has been removed from your library.";
+    public String removeSongLibrary(String songName) {
+        ArrayList<Song> matches = songByTitleHelper(songName);
+
+        if (matches.isEmpty()) return "It doesn't look like that song is in your library.";
+        if (matches.size() > 1) return "There are multiple songs in your library with that name. Please specify the artist to ensure we remove the correct one.";
+        deepDelete(matches.get(0));
+        return "Song removed successfully!";
     }
 
-    public String removeSong(String songName, String artist) {
-    	for (Song song : songs) {
-    		if(song.getTitle()==songName&&song.getArtist()==artist) {
-    			deepDeleteSong(song);
-    			return "The song " + songName+ " by "+artist+"has been removed from your library.";
-    		}
-    	}
-    	return "There is no song named "+songName+ " by "+artist+"in your library.";
+    public String removeSongLibrary(String songName, String artist) {
+        ArrayList<Song> matches = songByTitleHelper(songName);
+
+        for (int i = matches.size() - 1; i >= 0; i--) {
+            Song song = matches.get(i);
+            if (song.getTitle().equalsIgnoreCase(songName) && song.getArtist().equalsIgnoreCase(artist)) {
+                deepDelete(song);
+                return "Song removed successfully!";
+            }
+        }
+
+        return "It doesn't look like that song is in your library.";
     }
 
-    public String removeAlbum(String albumName) {
-    	Album found = null;
-    	for (Album album : albums) {
-    		if(album.getTitle()==albumName) {
-    			if(found!=null)
-    				return "There are multiple albums with that title in our library. Please specify the artist to ensure we add the correct one!";
-    			else found=album;
-    		}
-    	}
-    	if (found==null)
-    		return "The is no album named "+albumName+" in your library.";
-    	albums.remove(found);
-    	for (Song song : found.getTracks()) {
-    		deepDeleteSong(song);
-    	}
-    	return "All songs from the album "+albumName+" have been removed from your library";
+    public String removeAlbumLibrary(String albumName) {
+        ArrayList<Album> matches = albumByTitleHelper(albumName);
+        if (matches.isEmpty()) return "It doesn't look like that album is in your library.";
+        if (matches.size() > 1) return "There are multiple albums in your library with that title. Please specify the artist to ensure the right one is removed.";
+
+        Album removing = matches.get(0);
+        albums.remove(removing);
+        for (Song song : removing.getTracks()) {
+            deepDelete(song);
+        }
+
+        return "Album removed successfully!";
     }
 
-    public String removeAlbum(String albumName, String artist) {
-    	for (Album album : albums) {
-    		if (album.getTitle()==albumName&&album.getArtist()==artist) {
-    			for (Song song : album.getTracks()) {
-    				deepDeleteSong(song);
-    			}
-    			return "All songs from the album "+albumName+" by "+artist+" have been removed from your library";
-    		}
-    	}
-    	return "There is no album named "+albumName+ " by "+artist+"in your library.";
-    }
-
-    private void deepDeleteSong(Song song) {
+    private void deepDelete(Song song) {
     	songs.remove(song);
-    	for (Playlist playlist :  playlists) {
-    		playlist.removeSong(song.getTitle(),song.getArtist());
+    	for (Playlist playlist : playlists) {
+    		playlist.removeSong(song);
     	}
+
+        Album fromSong = new Album(song);
+        int index = albums.indexOf(fromSong);
+        if (index != -1) albums.get(index).removeSong(song);
     }
 
     public void shufflePlaylist(String playlistName) {
         Playlist playlist = getPlaylistHelper(playlistName);
         if (playlist != null) playlist.shuffle();
     }
-        public String getPresentAlbums() {
-    	ArrayList<String> contained = new ArrayList<String>();
-    	if (songs.size()==0)
-    		return "There are no songs in your user library.";
-    	for (Song song : songs) {
-    		String songsAlbum = song.getAlbum()+" - "+song.getArtist();
-    		if (!contained.contains(songsAlbum)) 
-    			contained.add(songsAlbum);
-    	}
-    	String toReturn = "The following albums Have at least one song in your library;\n";
-    	while (contained.size()!=0) {
-    		toReturn = toReturn + contained.removeFirst()+"\n";
-    	}
-    	return toReturn;
+
+    private String buildAlbumInformationString(Album album) {
+        StringBuilder output = new StringBuilder();
+        output.append("Album: ").append(album.getTitle()).append(" (").append(album.getYear()).append(") - In Library\n");
+        output.append("Artist: ").append(album.getArtist()).append("\n");
+        output.append("Genre: ").append(album.getGenre()).append("\n");
+        output.append("Track List:\n");
+        ArrayList<Song> tracks = album.getTracks();
+        for (int i = 0; i < tracks.size(); i++) {
+            output.append(String.format("   %d. %s", i + 1, tracks.get(i).getTitle()));
+            if (songs.contains(tracks.get(i))) output.append(" - In library\n");
+            else output.append(" - Not in library\n");
+        }
+
+        return output.toString();
     }
-    public String getPresentAlbumsVerbose() {
-    	HashMap<String,String> contained = new HashMap<String,String>();
-    	if (songs.size()==0)
-    		return "There are no songs in your user library.";
-    	for (Song song : songs) {
-    		String key = song.getAlbum()+song.getArtist();
-    		if(contained.containsKey(key)) {
-    			contained.put(key, 
-    					contained.get(key)+song.getTitle()+"\n");
-    		} else {
-    			String intro = 	"Album: "+song.getAlbum()+"\n"+
-    							"Artist: "+song.getArtist()+"\n"+
-    							"Genre: "+song.getGenre()+"\n"+
-    							"Track List:\n"+
-    							song.getTitle()+"\n";
-    			contained.put(key, intro);
-    		}
-    	}
-    	String toReturn = "";
-    	for (String toAdd : contained.values()) {
-    		toReturn = toReturn+toAdd;
-    	}
-    	return toReturn;
+
+    private Album getAlbumFromSong(String songName, String artist, MusicStore store) {
+        for (Song song : songs) {
+            if (song.getTitle().equalsIgnoreCase(songName) && song.getArtist().equalsIgnoreCase(artist)) {
+                return store.getAlbumForLibrary(song.getAlbum()).get(0);
+            }
+        }
+
+        return null;
     }
+
+    public String getAlbumInformation(String songName, String artist, MusicStore store) {
+        Album album = getAlbumFromSong(songName, artist, store);
+        return buildAlbumInformationString(album);
+    }
+
+    public String getAlbums() {
+        /* This method gets all albums in the user's library.
+    	 * 
+    	 * Returns: A printable string with all album names in the user's library on their own line.
+    	 */
+        if (songs.isEmpty()) return "Your library has no songs currently. Add some to get started!";
+        HashSet<String> albumSet = new HashSet<String>();
+        for (Album album : albums) {
+            albumSet.add(album.getTitle() + " - " + album.getArtist() + "\n");
+        }
+        for (Song song : songs) {
+            albumSet.add(song.getAlbum() + " - " + song.getArtist() + "\n");
+        }
+
+        StringBuilder output = new StringBuilder();
+        output.append("These are all of the albums in your library:\n");
+        for (String album : albumSet) {
+            output.append(album);
+        }
+
+        return output.toString().trim();
+    }
+
     //ALL METHODS BELOW THIS LINE SIMPLY FORWARD THE METHODS FROM MUSICSTORE FOR SEARCHING PURPOSES
 
-    public String getSongByTitleStore(String title) {
+    public String getSongByTitleStore(String title, MusicStore store) {
         return store.getSongByTitle(title);
     }
 
-    public String getSongByArtistStore(String artist) {
+    public String getSongByArtistStore(String artist, MusicStore store) {
         return store.getSongByArtist(artist);
     }
 
-    public String getAlbumByTitleStore(String title) {
+    public String getAlbumByTitleStore(String title, MusicStore store) {
         return store.getAlbumByTitle(title);
     }
 
-    public String getAlbumByArtistStore(String artist) {
+    public String getAlbumByArtistStore(String artist, MusicStore store) {
         return store.getAlbumByArtist(artist);
     }
 }

@@ -9,9 +9,9 @@ public class Song {
     private boolean isFavorite;
     private int timesPlayed;
     private String genre;
-    private long playedWhen;
+    private int year;
 
-    public Song(String title, String artist, String genre, String albumName) {
+    public Song(String title, String artist, String genre, String albumName, int year) {
     	/* This object represents a song on an album.
     	 * Constructor Arguments;
     	 * 		title: String name of the song.
@@ -25,7 +25,7 @@ public class Song {
         this.timesPlayed = 0;
         this.isRated = false;
         this.isFavorite = false;
-        this.playedWhen = 0;
+        this.year = year;
     }
 
     public Song(Song song) {
@@ -38,6 +38,11 @@ public class Song {
         this.timesPlayed = song.getTimesPlayed();
         this.isRated = false;
         this.isFavorite = false;
+        this.year = song.year;
+    }
+
+    public int getYear() {
+        return year;
     }
 
     public String getTitle() {
@@ -68,14 +73,9 @@ public class Song {
         return timesPlayed;
     }
 
-    public long getWhenPlayed() {
-        return playedWhen;
-    }
-
     public String play() {
         timesPlayed++;
-        playedWhen = System.currentTimeMillis();
-        return "Now playing: " + this.toString();
+        return "Now playing: " + this.toString().trim();
     }
 
     public void setRating(int userRating) {
@@ -129,6 +129,8 @@ public class Song {
         if (isRated) {
             output.append(String.format(" | You Rated: %d/5", rating));
         }
+
+        if (timesPlayed > 0) output.append(String.format(" | Plays: %d", timesPlayed));
 
         output.append("\n");
         return output.toString();

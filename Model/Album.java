@@ -29,7 +29,7 @@ public class Album {
 
             String line;
             while ((line = fileReader.readLine()) != null) {
-                Song track = new Song(line, artist, genre, title);
+                Song track = new Song(line, artist, genre, title, year);
                 songList.add(track);  
             }
 
@@ -49,14 +49,24 @@ public class Album {
 	
 	        String line;
 	        while ((line = br.readLine()) != null) {
-	            Song track = new Song(line, artist, genre, title);
+	            Song track = new Song(line, artist, genre, title, year);
 	            songList.add(track);  
         	}
     	} catch (IOException e) {
             e.printStackTrace();
         }
     }
-    
+
+    public Album(Song song) {
+        // Constructor for when a song is added in the library model
+        // and a partial album needs to be created
+        this.title = song.getAlbum();
+        this.artist = song.getArtist();
+        this.genre = song.getGenre();
+        this.year = song.getYear();
+        this.songList = new ArrayList<Song>();
+    }
+
     public Album(Album album) {
         // Copy constructor
         this.title = album.getTitle();
@@ -80,6 +90,14 @@ public class Album {
     
     public int getYear() {
         return year;
+    }
+
+    public void addSong(Song song) {
+        if (!songList.contains(song)) songList.add(song);
+    }
+
+    public void removeSong(Song song) {
+        songList.remove(song);
     }
 
     public ArrayList<Song> getTracks() {

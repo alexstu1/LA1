@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class View {
 	private static HashMap<String,LibraryModel> allLibs = new HashMap<String,LibraryModel>();
 	private static LibraryModel lib = new LibraryModel();
+	private static MusicStore store = new MusicStore();
 	public static void main(String[] args) {
 		/* This method prompts and reads user input, then calls the necessary functions.
 		 * It does not check or use any command line arguments when running the file.
@@ -40,7 +41,7 @@ public class View {
 					rateSongs(input);
 					break;
 				case "l":
-					if(allLibs.get("")==lib) {
+					if(allLibs.get("").equals(lib)) {
 						login(input);
 					} else {
 						//user logged in
@@ -73,15 +74,15 @@ public class View {
 		 * No arguments or returns.
 		 */
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
-		System.out.println("PLAY:           ENTER [P] and follow the instructions to play a song from your library.");
-		System.out.println("SEARCH:         Enter [S] and follow the instructions to search for a song, album, or playlist.");
-		System.out.println("GET ALL:        Enter [G] and follow the instructions to retrieve all of a certain category (songs, albums, etc.) from your library.");
-		System.out.println("PLAYLIST:       Enter [MP] and follow the instructions to create or modify a playlist.");
-		System.out.println("LIBRARY:        Enter [ML] to add or remove a song or entire album to your library.");
-		System.out.println("RATE/FAVORITE:  Enter [R] to rate or favorite a song.");
-		System.out.println("LOGIN:			Enter [L] to login or logout of a library.");
-		System.out.println("RETURN TO MENU: Enter [M] at any point to return the main menu.");
-		System.out.println("EXIT APP:       Enter [E] to terminate the program.");
+		System.out.println("PLAY:             ENTER [P] and follow the instructions to play a song from your library.");
+		System.out.println("SEARCH:           Enter [S] and follow the instructions to search for a song, album, or playlist.");
+		System.out.println("GET ALL:          Enter [G] and follow the instructions to retrieve all of a certain category (songs, albums, etc.) from your library.");
+		System.out.println("MODIFY PLAYLISTS: Enter [MP] and follow the instructions to create or modify a playlist.");
+		System.out.println("MODIFY LIBRARY:   Enter [ML] to shuffle or add/remove a song or entire album to your library.");
+		System.out.println("RATE/FAVORITE:    Enter [R] to rate or favorite a song.");
+		System.out.println("LOGIN:            Enter [L] to login or logout of a library.");
+		System.out.println("RETURN TO MENU:   Enter [M] at any point to return the main menu.");
+		System.out.println("EXIT APP:         Enter [E] to terminate the program.");
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 	}
 
@@ -244,7 +245,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter [S] to retrieve all songs, [AR] for artists, [AL] for albums, [P] for playlists, [F] for favorites,[SH] to shuffle all songs before searching, or [M] to return to the main menu.");
+		System.out.println("Enter [S] to retrieve all songs, [AR] for artists, [AL] for albums, [P] for playlists, [F] for favorites, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "s":
 				getSongs(input);
@@ -263,10 +264,6 @@ public class View {
 				break;
 			case "m":
 				return;
-			case "sh":
-				System.out.println("All song in the user library have been randomly shuffled!");
-				get(input);
-				break;
 			default:
 				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				get(input);
@@ -278,7 +275,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
-		System.out.println("Enter [A] to add something to the library, [R] to remove something, or [M] to return to the main menu.");
+		System.out.println("Enter [A] to add something to the library, [R] to remove something, [S] to shuffle your songs, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "a":
 				addToLibrary(input);
@@ -288,6 +285,10 @@ public class View {
 				break;
 			case "m":
 				return;
+			case "s":
+				lib.shuffle();
+				System.out.println("Library shuffled successfully!");
+				break;
 			default:
 				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				modifyLibrary(input);
@@ -304,8 +305,6 @@ public class View {
 				removeAlbumLibrary(input);
 				break;
 			case "m":
-				return;
-			default:
 				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				removeFromLibrary(input);
 		}
@@ -337,6 +336,8 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
+		System.out.println(lib.getPlaylists());
+		System.out.println("NOTE: Recently Played, Most Played, Top Rated, and Favorites are automatically updated with your activity and should not be modified.");
 		System.out.println("Enter [C] to create a playlist, the name of the playlist you want to modify, or [M] to return to the main menu.");
 		String entry = input.nextLine().trim().toLowerCase();
 		switch (entry) {
@@ -368,6 +369,7 @@ public class View {
 				break;
 			case "s":
 				lib.shufflePlaylist(playlistName);
+				System.out.println("Playlist shuffled successfully!");
 				break;
 			case "m":
 				return;
@@ -420,7 +422,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByTitleStore(search));
+		System.out.println(lib.getSongByTitleStore(search, store));
 	}
 
 	private static void songFromStoreByArtist(Scanner input) {
@@ -430,7 +432,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's artist:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByArtistStore(search));
+		System.out.println(lib.getSongByArtistStore(search, store));
 	}
 
 	private static void albumFromStoreByTitle(Scanner input) {
@@ -440,7 +442,7 @@ public class View {
 		 */
 		System.out.println("Enter the album's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getAlbumByTitleStore(search));
+		System.out.println(lib.getAlbumByTitleStore(search, store));
 	}
 
 	private static void albumFromStoreByArtist(Scanner input) {
@@ -450,7 +452,7 @@ public class View {
 		 */
 		System.out.println("Enter album's artist:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getAlbumByArtistStore(search));
+		System.out.println(lib.getAlbumByArtistStore(search, store));
 	}
 
 	private static void songFromLibraryByTitle(Scanner input) {
@@ -460,7 +462,17 @@ public class View {
 		 */
 		System.out.println("Enter the song's title:");
 		String search = input.nextLine().toLowerCase();
-		System.out.println(lib.getSongByTitle(search));
+		String output = lib.getSongByTitle(search);
+		System.out.println(output);
+		if (output.contains("doesn't look like that song")) return;
+		System.out.println("If you would like to see album information for one of the above songs, enter the song's artist or [M] to return to the main menu.");
+		String artist = input.nextLine().toLowerCase();
+		switch (artist) {
+			case "m":
+				break;
+			default:
+				System.out.println(lib.getAlbumInformation(search, artist, store));
+		}
 	}
 
 	private static void songFromLibraryByArtist(Scanner input) {
@@ -511,7 +523,7 @@ public class View {
 
 	private static void getSongs(Scanner input) {
 		// This method prints all songs in the music store.
-		System.out.println("Would you like to sort your results by [T] title, [A] artist, or [R] rating? Enter [N] to not sort. ");
+		System.out.println("Would you like to sort your results by [T] title, [A] artist, [R] rating? Enter [N] to not sort. ");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "t":
 				getSongsSortedByTitle();
@@ -707,7 +719,7 @@ public class View {
 		 */
 		System.out.println("Enter the song's name you'd like to add to your library.");
 		String songName = input.nextLine().trim().toLowerCase();
-		String output = lib.addSong(songName);
+		String output = lib.addSong(songName, store);
 		System.out.println(output);
 		if (output.equals("There are multiple songs with that title in our library. Please specify the artist to ensure we add the correct one!")) {
 			addSongToLibrary(input, songName);
@@ -720,15 +732,15 @@ public class View {
 		 * Argument: The string name of the song to add
 		 * Returns null. 
 		 */
-		System.out.println(lib.buildAddSongDupeString(songName));
+		System.out.println(lib.buildAddSongDupeString(songName, store));
 		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.addSong(songName, artist));
+		System.out.println(lib.addSong(songName, artist, store));
 	}
 
 	private static void removeSongLibrary(Scanner input) {
 		System.out.println("Enter the song's name you'd like to remove from your library.");
 		String songName = input.nextLine().trim().toLowerCase();
-		String output = lib.removeSong(songName);
+		String output = lib.removeSongLibrary(songName);
 		System.out.println(output);
 		if (output.equals("There are multiple songs with that title in our library. Please specify the artist to ensure we remove the correct one!")) {
 			removeSongLibrary(input, songName);
@@ -736,9 +748,9 @@ public class View {
 	}
 
 	private static void removeSongLibrary(Scanner input, String songName) {
-		System.out.println(lib.buildAddSongDupeString(songName));
+		System.out.println(lib.buildAddSongDupeString(songName, store));
 		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.removeSong(songName, artist));
+		System.out.println(lib.removeSongLibrary(songName, artist));
 	}
 
 	private static void addAlbumToLibrary(Scanner input) {
@@ -748,7 +760,7 @@ public class View {
 		 */
 		System.out.println("Enter the album's name you'd like to add to your library.");
 		String albumName = input.nextLine().trim().toLowerCase();
-		String output = lib.addAlbum(albumName);
+		String output = lib.addAlbum(albumName, store);
 		System.out.println(output);
 		if (output.equals("There are multiple albums with that title in our library. Please specify the artist to ensure we add the correct one!")) {
 			addAlbumToLibrary(input, albumName);
@@ -761,25 +773,15 @@ public class View {
 		 * Argument: The string name of the album to add
 		 * Returns null. 
 		 */
-		System.out.println(lib.buildAddAlbumDupeString(albumName));
+		System.out.println(lib.buildAddAlbumDupeString(albumName, store));
 		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.addAlbum(albumName, artist));
+		System.out.println(lib.addAlbum(albumName, artist, store));
 	}
 
 	private static void removeAlbumLibrary(Scanner input) {
 		System.out.println("Enter the album's name you'd like to remove from your library.");
 		String albumName = input.nextLine().trim().toLowerCase();
-		String output = lib.removeAlbum(albumName);
-		System.out.println(output);
-		if (output.equals("There are multiple albums with that title in our library. Please specify the artist to ensure we remove the correct one!")) {
-			removeAlbumLibrary(input, albumName);
-		}
-	}
-
-	private static void removeAlbumLibrary(Scanner input, String albumName) {
-		System.out.println(lib.buildAddAlbumDupeString(albumName));
-		String artist = input.nextLine().trim().toLowerCase();
-		System.out.println(lib.removeAlbum(albumName, artist));
+		System.out.println(lib.removeAlbumLibrary(albumName));
 	}
 
 	private static void play(Scanner input) {
@@ -793,11 +795,14 @@ public class View {
 	}
 
 	private static void play(Scanner input, String songName) {
-		System.out.println(lib.buildAddSongDupeString(songName));
+		System.out.println(lib.buildAddSongDupeString(songName, store));
 		String artist = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.play(songName, artist));
 	}
-		private static void logout(Scanner input) {
+
+	/* Below this line is for user account handling */
+	
+	private static void logout(Scanner input) {
 		System.out.println("Enter [Y] to logout or [N] to return to the main menu.");
 		switch (input.nextLine().toLowerCase()) {
 			case "y":
@@ -811,6 +816,7 @@ public class View {
 				logout(input);
 		}
 	}
+
 	private static void login(Scanner input) {
 		System.out.println("Enter [L] to login, [C] to create a new account, or [M] to return to the main menu.");
 		switch (input.nextLine().toLowerCase()) {
@@ -827,6 +833,7 @@ public class View {
 		}
 		
 	}
+
 	public static void loginAs(Scanner input) {
 		System.out.println("Enter your username:");
 		String username = input.nextLine();
@@ -847,6 +854,7 @@ public class View {
 			login(input);
 		}
 	}
+
 	private static void newUser(Scanner input) {
 		boolean validUsername = false;
 		String username="";
