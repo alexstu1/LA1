@@ -40,11 +40,11 @@ public class View {
 					rateSongs(input);
 					break;
 				case "l":
-					if(allLibs.get("").equals(lib)) {
-						logout(input);
+					if(allLibs.get("")==lib) {
+						login(input);
 					} else {
 						//user logged in
-						login(input);
+						logout(input);
 					}
 					break;
 				case "m":
