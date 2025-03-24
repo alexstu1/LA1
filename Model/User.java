@@ -23,7 +23,7 @@ public class User {
 			Scanner reader = new Scanner(file);
 			while (reader.hasNext()) {
 				String[] saved = reader.nextLine().split(",", 2);
-				if(username==saved[0]) {
+				if(username.equals(saved[0])) {
 					reader.close();
 					return false;
 				} 
@@ -38,7 +38,7 @@ public class User {
 	}
 	
 	public boolean isValidLogin() {
-		if (username==""||
+		if (username.equals("")||
 			username.contains(",")) {
 			return false;
 		}
