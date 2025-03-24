@@ -770,14 +770,25 @@ public class LibraryModel {
 
     	}
     	for(String genre : genreCounts.keySet()) {
+    		
     		if(genreCounts.get(genre).size()>=10) {
     			//MAKE GENRE PLAYLIST HERE
     			Playlist newPlaylist = new Playlist(genre);
     			for(Song song : genreCounts.get(genre)) {
     				newPlaylist.addSong(song);
     			}
-    			playlists.add(3, newPlaylist);
+    			boolean modified=false;
+    			for (int index=0;index<playlists.size();index++) {
+    				if(playlists.get(index).getName()==genre) {
+    					playlists.remove(index);
+    					playlists.add(index,newPlaylist);
+    					modified=true;
+    					break;
+    				}
+    			}
+    			if (!modified) playlists.add(3, newPlaylist);
     		}
+    		
     	}
     }
 
