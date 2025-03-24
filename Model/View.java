@@ -233,7 +233,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selections.
 		 * Returns null. 
 		 */
-		System.out.println("Enter [S] to retrieve all songs, [AR] for artists, [AL] for albums, [P] for playlists, [F] for favorites, or [M] to return to the main menu.");
+		System.out.println("Enter [S] to retrieve all songs, [AR] for artists, [AL] for albums, [P] for playlists, [F] for favorites,[SH] to shuffle all songs before searching, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "s":
 				getSongs(input);
@@ -252,6 +252,10 @@ public class View {
 				break;
 			case "m":
 				return;
+			case "sh":
+				System.out.println("All song in the user library have been randomly shuffled!");
+				get(input);
+				break;
 			default:
 				System.out.println("Command not recognized, please enter a valid command from the instructions within the []. Commands are case insensitive.");
 				get(input);
@@ -341,13 +345,16 @@ public class View {
 		 * 
 		 * Returns null.
 		 */
-		System.out.println("Enter [A] to add a song to playlist, [R] to remove a song, or [M] to return to the main menu.");
+		System.out.println("Enter [A] to add a song to playlist, [R] to remove a song, [S] to shuffle the playlist, or [M] to return to the main menu.");
 		switch (input.nextLine().trim().toLowerCase()) {
 			case "a":
 				addSongToPlaylist(input,playlistName);
 				break;
 			case "r":
 				removeSongFromPlaylist(input,playlistName);
+				break;
+			case "s":
+				lib.shufflePlaylist(playlistName);
 				break;
 			case "m":
 				return;
@@ -777,4 +784,5 @@ public class View {
 		String artist = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.play(songName, artist));
 	}
+	
 }
