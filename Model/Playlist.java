@@ -34,15 +34,6 @@ public class Playlist {
     public void removeSong(int index) {
     	songs.remove(index);
     }
-    public void removeSong(Song song) {
-    	if (this.contains(song)) {
-    		for (int idx=0;idx<getSize();idx++) {
-    			if(this.songs.get(idx).equals(song))
-    				this.songs.remove(idx);
-    			return;
-    		}
-    	}
-    }
     public int getSize() {
     	return songs.size();
     }
