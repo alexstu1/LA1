@@ -17,7 +17,8 @@ public class User {
 
 	}
 	public static boolean isUserNameAvailable(String username) {
-		File file = new File("./users.txt");
+		File usersPath = new File("Users");
+		File file = new File(usersPath, "users.txt");
 		try {
 			Scanner reader = new Scanner(file);
 			while (reader.hasNext()) {
@@ -41,7 +42,8 @@ public class User {
 			username.contains(",")) {
 			return false;
 		}
-		File file = new File("./users.txt");
+		File usersPath = new File("Users");
+		File file = new File(usersPath, "users.txt");
 		try {
 			Scanner reader = new Scanner(file);
 			while (reader.hasNext()) {
@@ -63,16 +65,17 @@ public class User {
 	public void saveCredentials() {
 
 		String toSave = username+","+encryptedPassword;
-		File file = new File("./users.txt");
+		File usersPath = new File("Users");
+		File file = new File(usersPath, "users.txt");
 		try {
 			Scanner reader = new Scanner(file);
 			ArrayList<String> unedited = new ArrayList<String>();
 			while (reader.hasNextLine()) {
 				unedited.add(reader.nextLine());
 			}
-			FileWriter fileWriter = new FileWriter("./users.txt");
+			FileWriter fileWriter = new FileWriter(file);
 			while (unedited.size()>0) {
-				fileWriter.append(unedited.remove(0));
+				fileWriter.append(unedited.remove(0) + "\n");
 			}
 			fileWriter.append(toSave);
 			fileWriter.close();
