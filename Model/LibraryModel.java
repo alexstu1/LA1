@@ -727,7 +727,7 @@ public class LibraryModel {
     	ArrayList<Song> toUpdate = new ArrayList<Song>();
     	toUpdate.add(new Song(songs.get(0)));
     	for (Song song: songs) {
-    		if (song.getTimesPlayed()>toUpdate.get(toUpdate.size()-1).getTimesPlayed()) {
+    		if (song.getTimesPlayed() > toUpdate.get(toUpdate.size()-1).getTimesPlayed()) {
     			for (int idx = 0;idx<toUpdate.size();idx++) {
     				if(toUpdate.get(idx).getTimesPlayed()<song.getTimesPlayed()) {
     					toUpdate.add(idx, new Song(song));
@@ -743,6 +743,7 @@ public class LibraryModel {
     	playlists.remove(1);
     	playlists.add(1, newPlaylist);
     }
+
     public void updateHighRating() {
     	ArrayList<Song> toUpdate = new ArrayList<Song>();
     	for (Song song: songs) {
@@ -778,5 +779,27 @@ public class LibraryModel {
     			playlists.add(3, newPlaylist);
     		}
     	}
+    }
+
+    public String play(String song) {
+        ArrayList<Song> matches = songByTitleHelper(song);
+
+        if (matches.isEmpty()) return "It doesn't look like that song is in your library.";
+        if (matches.size() > 1) return "There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is rated.";
+        updateRecents(matches.get(0));
+        return matches.get(0).play();
+    }
+
+    public String play(String songName, String artist) {
+        ArrayList<Song> matches = songByTitleHelper(songName);
+
+        for (Song song : matches) {
+            if (song.getArtist().toLowerCase().equals(artist)) {
+                updateRecents(song);
+                return song.play();
+            }
+        }
+
+        return "It doesn't look like that song is in your library.";
     }
 }

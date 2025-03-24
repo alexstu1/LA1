@@ -25,11 +25,14 @@ public class View {
 				case "g":
 					get(input);
 					break;
-				case "p":
+				case "mp":
 					modifyPlaylist(input);
 					break;
-				case "l":
+				case "ml":
 					modifyLibrary(input);
+					break;
+				case "p":
+					play(input);
 					break;
 				case "r":
 					rateSongs(input);
@@ -60,10 +63,11 @@ public class View {
 		 * No arguments or returns.
 		 */
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println("PLAY:           ENTER [P] and follow the instructions to play a song from your library.");
 		System.out.println("SEARCH:         Enter [S] and follow the instructions to search for a song, album, or playlist.");
 		System.out.println("GET ALL:        Enter [G] and follow the instructions to retrieve all of a certain category (songs, albums, etc.) from your library.");
-		System.out.println("PLAYLIST:       Enter [P] and follow the instructions to create or modify a playlist.");
-		System.out.println("LIBRARY:        Enter [L] to add or remove a song or entire album to your library.");
+		System.out.println("PLAYLIST:       Enter [MP] and follow the instructions to create or modify a playlist.");
+		System.out.println("LIBRARY:        Enter [ML] to add or remove a song or entire album to your library.");
 		System.out.println("RATE/FAVORITE:  Enter [R] to rate or favorite a song.");
 		System.out.println("RETURN TO MENU: Enter [M] at any point to return the main menu.");
 		System.out.println("EXIT APP:       Enter [E] to terminate the program.");
@@ -747,5 +751,21 @@ public class View {
 		System.out.println(lib.buildAddAlbumDupeString(albumName));
 		String artist = input.nextLine().trim().toLowerCase();
 		System.out.println(lib.removeAlbum(albumName, artist));
+	}
+
+	public static void play(Scanner input) {
+		System.out.println("Enter the name of the song you'd like to play.");
+		String songName = input.nextLine().trim().toLowerCase();
+		String output = lib.play(songName);
+		System.out.println(output);
+		if (output.contains("multiple songs in your library")) {
+			play(input, songName);
+		}
+	}
+
+	public static void play(Scanner input, String songName) {
+		System.out.println(lib.buildAddSongDupeString(songName));
+		String artist = input.nextLine().trim().toLowerCase();
+		System.out.println(lib.play(songName, artist));
 	}
 }
