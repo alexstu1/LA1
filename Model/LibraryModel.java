@@ -328,7 +328,7 @@ public class LibraryModel {
         for (Album album : matches) {
             if (album.getArtist().equalsIgnoreCase(artist)) {
                 int index = albums.indexOf(album);
-                if (index != 1 && albums.get(index).getTracks().size() == album.getTracks().size()) return "That album is already in your library.";
+                if (index != -1 && albums.get(index).getTracks().size() == album.getTracks().size()) return "That album is already in your library.";
                 albums.remove(album);
                 albums.add(album);
                 for (Song song : album.getTracks()) {
