@@ -500,4 +500,33 @@ class LibraryModelTest {
 		String actual = libraryModel.removeSongLibrary("Lullaby", "OneRepublic");
 		assertEquals("Song removed successfully!",actual);
 	}
+
+	@Test
+	void testGetAlbumFromInformation() {
+		libraryModel.addSong("Fight for Your Mind", store);
+		assertEquals("Album: Fight for Your Mind (1995) - In Library\n"
+				+ "Artist: Ben Harper\n"
+				+ "Genre: Alternative\n"
+				+ "Track List:\n"
+				+ "   1. Oppression - Not in library\n"
+				+ "   2. Ground on Down - Not in library\n"
+				+ "   3. Another Lonely Day - Not in library\n"
+				+ "   4. Gold to Me - Not in library\n"
+				+ "   5. Burn One Down - Not in library\n"
+				+ "   6. Excuse Me Mr. - Not in library\n"
+				+ "   7. People Lead - Not in library\n"
+				+ "   8. Fight for Your Mind - In library\n"
+				+ "   9. Give a Man a Home - Not in library\n"
+				+ "   10. By My Side - Not in library\n"
+				+ "   11. Power of the Gospel - Not in library\n"
+				+ "   12. God Fearing Man - Not in library\n"
+				+ "   13. One Road to Freedom - Not in library\n",libraryModel.getAlbumInformation("Fight For Your Mind", "Ben Harper", store));
+	}
+
+	@Test
+	void testRemoveAlbumLibrary() {
+		assertEquals("It doesn't look like that album is in your library.", libraryModel.removeAlbumLibrary("Fake Album"));
+		libraryModel.addAlbum("19", store);
+		assertEquals("Album removed successfully!", libraryModel.removeAlbumLibrary("19"));
+	}
 }
