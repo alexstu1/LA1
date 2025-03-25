@@ -11,6 +11,7 @@ public class View {
 	private static HashMap<String,LibraryModel> allLibs = new HashMap<String,LibraryModel>();
 	private static LibraryModel lib = new LibraryModel();
 	private static MusicStore store = new MusicStore();
+	private static String loggedInString = "You are currently not logged in.";
 	public static void main(String[] args) {
 		/* This method prompts and reads user input, then calls the necessary functions.
 		 * It does not check or use any command line arguments when running the file.
@@ -74,6 +75,8 @@ public class View {
 		 * 	further instructions are provided once a command is started. 
 		 * No arguments or returns.
 		 */
+		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
+		System.out.println(loggedInString);
 		System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------");
 		System.out.println("PLAY:             ENTER [P] and follow the instructions to play a song from your library.");
 		System.out.println("SEARCH:           Enter [S] and follow the instructions to search for a song, album, or playlist.");
@@ -521,6 +524,7 @@ public class View {
 		 * Argument: A scanner object that is monitoring the command line where the user enters their selection.
 		 * Returns null.
 		 */
+		System.out.println(lib.getPlaylists());
 		System.out.println("Enter the playlist's name:");
 		String search = input.nextLine().toLowerCase();
 		System.out.println(lib.getPlaylist(search));
@@ -842,6 +846,7 @@ public class View {
 			case "y":
 				lib = allLibs.get("");
 				System.out.println("Successfully logged out!");
+				loggedInString = "You are currently not logged in.";
 				break;
 			case "n":
 			case "m":
@@ -890,7 +895,8 @@ public class View {
 				lib = new LibraryModel();
 				allLibs.put(username, lib);
 			}
-			System.out.println("Successfully logged in as "+username+"!");
+			System.out.println("Successfully logged in as " + username+ "!");
+			loggedInString = "You are currently logged in as " + username;
 			return;
 		} else {
 			System.out.println("Invalid username or password");
@@ -920,6 +926,6 @@ public class View {
 		lib = new LibraryModel();
 		allLibs.put(username, lib);
 		System.out.println("Successfully created an account and logged in as "+username+"!");
+		loggedInString = "You are currently logged in as " + username + ".";
 	}
-	
 }

@@ -579,6 +579,7 @@ public class LibraryModel {
 
         if (matches.size() == 1) {
             matches.get(0).favorite();
+            updateFavorites(matches.get(0));
             return "Song favorited!";
         }
 
