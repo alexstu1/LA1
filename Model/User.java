@@ -27,7 +27,23 @@ public class User{
 		this.encryptedPassword = encryptPassword(password);
 		
 	}
-	
+	public static void deleteDatabase() {
+		/* This method deletes all user accounts from the user account file
+		 * Arguments: None
+		 * Returns: null
+		 */
+		File usersPath = new File("Users");
+		File file = new File(usersPath, "users.txt");
+		try {
+			FileWriter writer = new FileWriter(file);
+			writer.append("");
+			writer.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 	public String encryptPassword(String password) {
 		/* This method takes a clear text password and returns its encrypted version,
 		 *  after salting with the users username.
