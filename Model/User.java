@@ -13,6 +13,7 @@ import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
 public class User{
+	//test coverage - 91.4% only missing the e.printstacktrace in the exceptions.
 	private String username;
 	private String encryptedPassword;
 	
