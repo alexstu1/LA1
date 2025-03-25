@@ -673,28 +673,15 @@ public class LibraryModel {
          * Argument: none
          * Returns: A String representation of all songs in the user library sorted alphabetically by title.
          */
-    	String toReturn = "";
-    	ArrayList<Song> sorting = new ArrayList<Song>();
-    	for (Song toSort : songs) {
-    		if (sorting.size()==0) {
-                sorting.add(toSort);
-                continue;
-            } 
-    		boolean added = false;
-    		for (int i=1;i<sorting.size();i++) {
-    			int compared = sorting.get(i).getTitle().compareTo(toSort.getTitle());
-    			if (compared>=0) {
-    				sorting.add(i, toSort);
-    				added =true;
-    				break;
-    			}
-    		}
-    		if (!added) sorting.add(toSort);
-    	}
-    	for (Song toBuild : sorting) {
-    		toReturn=toReturn + toBuild.toString();
-    	}
-    	return toReturn;
+    	ArrayList<Song> sorting = new ArrayList<Song>(songs);
+        sorting.sort(Comparator.comparing(Song::getTitle));
+
+        StringBuilder result = new StringBuilder();
+        for (Song song : sorting ) {
+            result.append(song.toString());
+        }
+
+        return result.toString().trim();
     }
 
     public String getSongsSortedByArtist() {
@@ -703,28 +690,15 @@ public class LibraryModel {
          * Argument: none
          * Returns: A String representation of all songs in the user library sorted alphabetically by artist name.
          */
-    	String toReturn = "";
-    	ArrayList<Song> sorting = new ArrayList<Song>();
-    	for (Song toSort : songs) {
-    		if (sorting.size()==0) {
-                sorting.add(toSort);
-                continue;
-            } 
-    		boolean added = false;
-    		for (int i=0;i<sorting.size();i++) {
-    			int compared = sorting.get(i).getArtist().compareTo(toSort.getArtist());
-    			if (compared>=0) {
-    				sorting.add(i, toSort);
-    				added =true;
-    				break;
-    			}
-    		}
-    		if (!added) sorting.add(toSort);
-    	}
-    	for (Song toBuild : sorting) {
-    		toReturn=toReturn + toBuild.toString();
-    	}
-    	return toReturn;
+    	ArrayList<Song> sorting = new ArrayList<Song>(songs);
+        sorting.sort(Comparator.comparing(Song::getArtist));
+
+        StringBuilder result = new StringBuilder();
+        for (Song song : sorting ) {
+            result.append(song.toString());
+        }
+
+        return result.toString().trim();
     }
 
     public String getSongsSortedByRating() {
