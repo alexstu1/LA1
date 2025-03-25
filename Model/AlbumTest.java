@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.*;
 
 class AlbumTest {
-    // Coverage Achieved: 94%
+    // Coverage Achieved: 97.7%
     private Album album;
     private Album albumCopy;
     private File testFile;
@@ -90,5 +90,27 @@ class AlbumTest {
                           "   2. B\n" +
                           "   3. C\n";
         assertEquals(expected, album.toString());
+    }
+    @Test
+    void testAlbumSong() {
+    	Song song = new Song("LA1", "Eric and Alex", "CSC 335","study",2025);
+    	Album newAlbum = new Album(song);
+    	assertEquals("study",newAlbum.getTitle());
+    	assertEquals("Eric and Alex",newAlbum.getArtist());
+    	assertEquals("CSC 335",newAlbum.getGenre());
+    	assertEquals(2025,newAlbum.getYear());
+    }
+    @Test
+    void testAddSong() {
+    	Song song = new Song("LA1", "Eric and Alex", "CSC 335","study",2025);
+    	album.addSong(song);
+    	album.addSong(song);
+    }
+    @Test
+    void testRemoveSong() {
+    	Song song = new Song("LA1", "Eric and Alex", "CSC 335","study",2025);
+    	album.addSong(song);
+    	album.removeSong(song);
+    	album.removeSong(song);
     }
 }
