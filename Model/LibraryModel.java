@@ -676,9 +676,12 @@ public class LibraryModel {
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
     	for (Song toSort : songs) {
-    		if (sorting.size()==0)	sorting.add(toSort);
+    		if (sorting.size()==0) {
+                sorting.add(toSort);
+                continue;
+            } 
     		boolean added = false;
-    		for (int i=0;i<sorting.size();i++) {
+    		for (int i=1;i<sorting.size();i++) {
     			int compared = sorting.get(i).getTitle().compareTo(toSort.getTitle());
     			if (compared>=0) {
     				sorting.add(i, toSort);
@@ -703,7 +706,10 @@ public class LibraryModel {
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
     	for (Song toSort : songs) {
-    		if (sorting.size()==0)	sorting.add(toSort);
+    		if (sorting.size()==0) {
+                sorting.add(toSort);
+                continue;
+            } 
     		boolean added = false;
     		for (int i=0;i<sorting.size();i++) {
     			int compared = sorting.get(i).getArtist().compareTo(toSort.getArtist());
@@ -730,7 +736,10 @@ public class LibraryModel {
     	String toReturn = "";
     	ArrayList<Song> sorting = new ArrayList<Song>();
     	for (Song toSort : songs) {
-    		if (sorting.size()==0)	sorting.add(toSort);
+    		if (sorting.size()==0) {
+                sorting.add(toSort);
+                continue;
+            }
     		boolean added = false;
     		for (int i=0;i<sorting.size();i++) {
     			Boolean compared = sorting.get(i).getRating()<=toSort.getRating();
@@ -742,7 +751,7 @@ public class LibraryModel {
     		}
     		if (!added) sorting.add(toSort);
     	}
-    	System.out.println(sorting.size());
+    	
     	for (Song toBuild : sorting) {
     		toReturn=toReturn + toBuild.toString();
     	}
