@@ -27,6 +27,12 @@ public class User{
 		this.encryptedPassword = encryptPassword(password);
 		
 	}
+	public String getUsername() {
+		return this.username;
+	}
+	public String getEncrypetdPassword() {
+		return this.encryptedPassword;
+	}
 	public static void deleteDatabase() {
 		/* This method deletes all user accounts from the user account file
 		 * Arguments: None
