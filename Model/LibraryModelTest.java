@@ -2,19 +2,19 @@ package Model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LibraryModelTest {
 	private LibraryModel libraryModel;
 	private MusicStore store;
-
 	@BeforeEach
 	void setUp() {
 		libraryModel = new LibraryModel();
 		store = new MusicStore();
 	}
-	
 	@Test
 	void testLibraryModel() {
 		assertEquals(libraryModel,libraryModel);
@@ -361,4 +361,143 @@ class LibraryModelTest {
 		assertEquals("Full album added successfully!",libraryModel.addAlbum("Fight for Your Mind", "Ben Harper", store));
 	}
 
+
+	@Test
+	void testRateSongStringInt1() {
+		libraryModel.addSong("Banjo", store);
+		String emptyResult = libraryModel.rateSong("fakeName", 2);
+		assertEquals("To rate a song, it must be in your library.",emptyResult);
+	
+		String ratedResult = libraryModel.rateSong("Banjo", 2);
+		assertEquals("Song rated!",ratedResult);
+		
+		libraryModel.addSong("Lullaby", "OneRepublic",store);
+		libraryModel.addSong("Lullaby","Leonard Cohen",store);
+		String multipleResult = libraryModel.rateSong("Lullaby", 2);
+		String expected = "There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is rated.";
+		assertEquals(expected,multipleResult);
+	}
+	@Test
+	void testRateSongStringIntString1() {
+		libraryModel.addSong("Lullaby", "OneRepublic",store);
+		libraryModel.addSong("Lullaby","Leonard Cohen",store);
+		String expected =libraryModel.rateSong("Lullaby", 2,"OneRepublic");
+		assertEquals("Song rated!",expected);
+		
+		String emptyResult = libraryModel.rateSong("fakeName", 2,"fakeArtist");
+		assertEquals("To rate a song, it must be in your library.",emptyResult);
+	}
+	@Test
+	void testGetSongsSortedByTitle() {
+		libraryModel.addSong("Banjo", store);
+		libraryModel.addSong("Anyhow",store);
+		
+		
+		
+		
+		String actual = libraryModel.getSongsSortedByTitle();
+		String expected = "Leonard Cohen - Anyhow | Genre: Singer/Songwriter | Appears on: Old Ideas\n"
+				+ "Leonard Cohen - Banjo | Genre: Singer/Songwriter | Appears on: Old Ideas";
+		assertEquals(expected,actual);
+	}
+	@Test
+	void testGetSongsSortedByArtist() {
+		libraryModel.addSong("Banjo", store);
+		libraryModel.addSong("Turning Tables",store);
+		
+		String actual = libraryModel.getSongsSortedByArtist();
+		String expected = "Adele - Turning Tables | Genre: Pop | Appears on: 21\n"
+				+ "Leonard Cohen - Banjo | Genre: Singer/Songwriter | Appears on: Old Ideas";
+		assertEquals(expected,actual);
+	}
+	@Test
+	void testGetSongsSortedByRating() {
+		libraryModel.addSong("Banjo", store);
+		libraryModel.addSong("Turning Tables",store);
+		libraryModel.rateSong("Banjo", 2);
+		libraryModel.rateSong("Turning Tables",3);
+		String actual = libraryModel.getSongsSortedByRating();
+		String expected = "Adele - Turning Tables | Genre: Pop | Appears on: 21 | You Rated: 3/5\n"
+				+ "Leonard Cohen - Banjo | Genre: Singer/Songwriter | Appears on: Old Ideas | You Rated: 2/5\n";
+		assertEquals(expected,actual);
+	}
+	@Test
+	void testShuffle() {
+		libraryModel.addSong("Banjo", store);
+		libraryModel.addSong("Turning Tables",store);
+		String shuffledString = "These are all of the songs in your library:\n"
+				+ "Adele - Turning Tables | Genre: Pop | Appears on: 21\n"
+				+ "Leonard Cohen - Banjo | Genre: Singer/Songwriter | Appears on: Old Ideas";
+		boolean shuffled = false;
+		for (int i=0;i<25;i++) {		
+			libraryModel.shuffle();
+			if (libraryModel.getSongs().equals(shuffledString)) {
+				shuffled=true;
+				break;
+			}
+		}
+		assertTrue(shuffled);
+	}
+	@Test
+	void testGetSongByGenre() {
+		String emptyLibrary = libraryModel.getSongByGenre("FAKE");
+		assertEquals("Your library is empty. Add something to get started!",emptyLibrary);
+		libraryModel.addSong("Banjo", store);
+		libraryModel.addSong("Turning Tables",store);
+		String actual = libraryModel.getSongByGenre("Pop");
+		String expected = "These are the songs that match your search:\n"
+				+ "Adele - Turning Tables | Genre: Pop | Appears on: 21";
+		assertEquals(expected,actual);
+	}
+	@Test
+	void testPlayString() {
+		String noMatch = libraryModel.play("fake");
+		assertEquals("It doesn't look like that song is in your library.",noMatch);
+		
+		libraryModel.addSong("Banjo", store);
+		String played = libraryModel.play("Banjo");
+		String actual = "Now playing: Leonard Cohen - Banjo | Genre: Singer/Songwriter | Appears on: Old Ideas | Plays: 1";
+		assertEquals(actual,played);
+		
+		libraryModel.addSong("Lullaby", "OneRepublic",store);
+		libraryModel.addSong("Lullaby","Leonard Cohen",store);
+		String duplicate = libraryModel.play("Lullaby");
+		actual = "There are multiple songs in your library with that name. Please specify the artist to ensure the correct one is played.";
+		assertEquals(actual,duplicate);
+	}
+	@Test
+	void testPlayStringString() {
+		String noMatch = libraryModel.play("fake","faker");
+		assertEquals("It doesn't look like that song is in your library.",noMatch);
+		
+		libraryModel.addSong("Lullaby", "OneRepublic",store);
+		libraryModel.addSong("Lullaby","Leonard Cohen",store);
+		String actual = libraryModel.play("Lullaby", "OneRepublic");
+		String expected = "Now playing: OneRepublic - Lullaby | Genre: Rock | Appears on: Waking Up | Plays: 1";
+		assertEquals(expected,actual);
+	}
+	@Test
+	void testRemoveSongLibraryString() {
+		String noMatch = libraryModel.removeSongLibrary("Fake");
+		assertEquals("It doesn't look like that song is in your library.",noMatch);
+		
+		libraryModel.addSong("Lullaby", "OneRepublic",store);
+		libraryModel.addSong("Lullaby","Leonard Cohen",store);
+		String duplicate = libraryModel.removeSongLibrary("Lullaby");
+		assertEquals("There are multiple songs in your library with that name. Please specify the artist to ensure we remove the correct one.",duplicate);
+		
+		libraryModel.addSong("Banjo", store);
+		String actual = libraryModel.removeSongLibrary("Banjo");
+		assertEquals("Song removed successfully!",actual);
+	}
+	@Test
+	void testRemoveSongLibraryStringString() {
+		String noMatch = libraryModel.removeSongLibrary("Fake","faker");
+		assertEquals("It doesn't look like that song is in your library.",noMatch);
+	
+		libraryModel.addSong("Lullaby", "OneRepublic",store);
+		libraryModel.addSong("Lullaby","Leonard Cohen",store);
+		String actual = libraryModel.removeSongLibrary("Lullaby", "OneRepublic");
+		assertEquals("Song removed successfully!",actual);
+	}
 }
