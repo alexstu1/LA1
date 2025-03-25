@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 
 public class MusicStoreTest {
+	//coverage 99.2%
     private MusicStore musicStore;
 
     @BeforeEach
@@ -17,32 +18,34 @@ public class MusicStoreTest {
 
     @Test
     void testGetSongByTitle() {
+    	
         String result = musicStore.getSongByTitle("Fake Song (Does not exist)");
         assertEquals("Sorry! It doesn't look like that song is in our library.", result);
 
         result = musicStore.getSongByTitle("Lullaby");
-        assertTrue(result.contains("These are the songs that match your search:"));
-        assertTrue(result.contains("OneRepublic - Lullaby | Appears on: Waking Up"));
-        assertTrue(result.contains("Leonard Cohen - Lullaby | Appears on: Old Ideas"));
+        String expected = "These are the songs that match your search:\n"+
+        	"Leonard Cohen - Lullaby | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"OneRepublic - Lullaby | Genre: Rock | Appears on: Waking Up";
+        assertEquals(expected,result);
     }
 
     @Test
     void testGetSongByArtist() {
         String result = musicStore.getSongByArtist("Unknown Artist");
         assertEquals("Sorry! It doesn't look like that song is in our library.", result);
-
         result = musicStore.getSongByArtist("Leonard Cohen");
-        assertTrue(result.contains("These are the songs that match your search:"));
-        assertTrue(result.contains("Leonard Cohen - Going Home | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Amen | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Show Me the Place | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Darkness | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Anyhow | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Crazy to Love You | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Come Healing | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Banjo | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Lullaby | Appears on: Old Ideas"));
-        assertTrue(result.contains("Leonard Cohen - Different Sides | Appears on: Old Ideas"));
+        String expected = "These are the songs that match your search:\n"+
+        	"Leonard Cohen - Going Home | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Amen | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Show Me the Place | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Darkness | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Anyhow | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Crazy to Love You | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Come Healing | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Banjo | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Lullaby | Genre: Singer/Songwriter | Appears on: Old Ideas\n"+
+        	"Leonard Cohen - Different Sides | Genre: Singer/Songwriter | Appears on: Old Ideas";
+        assertEquals(expected,result);
     }
 
     @Test
@@ -97,9 +100,10 @@ public class MusicStoreTest {
         assertTrue(songs.isEmpty());
 
         songs = musicStore.getSongForLibrary("Lullaby");
-        Song orLullaby = new Song("Lullaby", "OneRepublic", "Waking Up");
-        Song lcLullaby = new Song("Lullaby", "Leonard Cohen", "Old Ideas");
+        Song orLullaby = new Song("Lullaby", "OneRepublic", "Rock", "Waking Up", 2009);
+        Song lcLullaby = new Song("Lullaby", "Leonard Cohen","Singer/Songwriter", "Old Ideas", 2012);
 
+        
         assertTrue(songs.contains(orLullaby));
         assertTrue(songs.contains(lcLullaby));
     }
