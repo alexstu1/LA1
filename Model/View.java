@@ -53,6 +53,7 @@ public class View {
 				case "e":
 					input.close();
 					continuing=false;
+					User.deleteDatabase();
 					break;
 				default:
 					System.out.println("Command not recognized, please enter a valid command from the list within the []. Commands are case insensitive.");
