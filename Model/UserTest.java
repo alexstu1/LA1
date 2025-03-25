@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class UserTest {
+	//91.4% coverage
 	private User user;
 	@BeforeEach
 	void setUp() throws Exception {
