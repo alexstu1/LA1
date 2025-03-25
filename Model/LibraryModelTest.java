@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class LibraryModelTest {
+	//94.7% coverage
 	private LibraryModel libraryModel;
 	private MusicStore store;
 	@BeforeEach
